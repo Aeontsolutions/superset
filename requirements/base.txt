@@ -23,6 +23,7 @@ bcrypt==4.0.1
     # via paramiko
 billiard==3.6.4.0
     # via celery
+sqlalchemy-bigquery==1.5.0
 bleach==3.3.1
     # via apache-superset
 brotli==1.0.9

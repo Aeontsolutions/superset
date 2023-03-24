@@ -182,8 +182,8 @@ configMountPath: "/app/pythonpath"
 extraConfigMountPath: "/app/configs"
 
 image:
-  repository: apache/superset
-  tag: ""
+  repository: us-east1-docker.pkg.dev/apache-superset-378504/custom-superset/custom-supserset
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
