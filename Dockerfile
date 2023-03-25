@@ -119,6 +119,8 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREF
 
 RUN pip install --no-cache gevent psycopg2 redis
 
+USER superset
+ENV PATH="/usr/local/bin:${PATH}"
 
 COPY --from=superset-py /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages/
 # Copying site-packages doesn't move the CLIs, so let's copy them one by one
