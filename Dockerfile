@@ -94,7 +94,7 @@ RUN mkdir -p ${PYTHONPATH} \
             libecpg-dev \
         && rm -rf /var/lib/apt/lists/*
         
-ARG GECKODRIVER_VERSION=v0.29.0
+ARG GECKODRIVER_VERSION=0.29.0
 ARG FIREFOX_VERSION=88.0
 
 USER root
