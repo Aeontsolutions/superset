@@ -93,6 +93,22 @@ RUN mkdir -p ${PYTHONPATH} \
             libpq-dev \
             libecpg-dev \
         && rm -rf /var/lib/apt/lists/*
+        
+ARG GECKODRIVER_VERSION=v0.29.0
+ARG FIREFOX_VERSION=88.0
+
+USER root
+
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends firefox-esr
+
+RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
+    tar -x geckodriver -zf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -O > /usr/bin/geckodriver && \
+    chmod 755 /usr/bin/geckodriver && \
+    rm geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
+
+RUN pip install --no-cache gevent psycopg2 redis
+
 
 COPY --from=superset-py /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages/
 # Copying site-packages doesn't move the CLIs, so let's copy them one by one
