@@ -29,6 +29,7 @@ RUN mkdir /app \
             libpq-dev \
             libsasl2-dev \
             libecpg-dev \
+            firefox-geckodriver \
         && rm -rf /var/lib/apt/lists/*
 
 # First, we just wanna install requirements, which will allow us to utilize the cache
@@ -100,7 +101,7 @@ ARG FIREFOX_VERSION=88.0
 USER root
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1 firefox-esr
+    && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1 firefox-esr firefix-geckodriver
 
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
     tar -x geckodriver -zf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -O > /usr/bin/geckodriver && \
@@ -123,6 +124,7 @@ USER superset
 RUN PATH="/usr/bin:$PATH"
 RUN PATH="/usr/local/bin:$PATH"
 ENV PATH="/usr/local/bin:${PATH}"
+ENV PATH="/usr/bin:${PATH}"
 
 USER root
 
@@ -166,7 +168,7 @@ COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
 USER root
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1 firefox-esr
+    && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1 firefox-esr firefox-geckodriver
 
 # Install GeckoDriver WebDriver
 RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
