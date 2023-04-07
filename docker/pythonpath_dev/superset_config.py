@@ -114,11 +114,13 @@ SECRET_KEY= "275e9918-8242-47cc-8c31-6bafb91e3399"
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True}
-WEBDRIVER_BASEURL = "http://superset:8088/"
+WEBDRIVER_BASEURL = "https://analyticstwo.aeontsolutions.com/"
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
+
+MAPBOX_API_KEY = "pk.eyJ1IjoiZHVqb24tZHVubiIsImEiOiJjbGc2NnBhNTMwYTBkM2ZuNTVoN2hwejc0In0.iQLaqyal3d5ne7c9BhhEbA"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on
