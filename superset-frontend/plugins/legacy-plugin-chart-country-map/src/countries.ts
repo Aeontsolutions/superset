@@ -39,6 +39,7 @@ import indonesia from './countries/indonesia.geojson';
 import iran from './countries/iran.geojson';
 import italy from './countries/italy.geojson';
 import italy_regions from './countries/italy_regions.geojson';
+import jamaica from './countries/jamaica.geojson';
 import japan from './countries/japan.geojson';
 import jordan from './countries/jordan.geojson';
 import kenya from './countries/kenya.geojson';
@@ -105,6 +106,7 @@ export const countries = {
   italy,
   italy_regions,
   japan,
+  jamaica,
   jordan,
   kenya,
   korea,
