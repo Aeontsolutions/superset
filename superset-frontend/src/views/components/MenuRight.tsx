@@ -278,11 +278,21 @@ const RightMenu = ({
         onClick={handleMenuSelection}
         onOpenChange={onMenuOpen}
       >
-        <IconButton
-          onClick={onClick}
-          label="Launch Aida Chatbot"
-          icon={<Icons.Trash iconSize="xl" />}
-        />
+        <StyledAnchor
+          href="https://aida.aeontsolutions.com"
+          target="_blank"
+          title={t('Aida Chatbot')}
+        >
+          <span
+            style={{
+              marginLeft: '10px',
+              marginRight: '3px',
+            }}
+          >
+            Aida Chatbot
+          </span>
+          <i className="fa fa-external-link" />
+        </StyledAnchor>
         {!navbarRight.user_is_anonymous && showActionDropdown && (
           <SubMenu
             data-test="new-dropdown"
