@@ -187,7 +187,6 @@ const RightMenu = ({
     },
   ];
 
-
   const checkAllowUploads = () => {
     const payload = {
       filters: [
