@@ -35,7 +35,6 @@ import Icons from 'src/components/Icons';
 import findPermission, { isUserAdmin } from 'src/dashboard/util/findPermission';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
 import { RootState } from 'src/dashboard/types';
-import IconButton from 'src/dashboard/components/IconButton';
 import LanguagePicker from './LanguagePicker';
 import DatabaseModal from '../CRUD/data/database/DatabaseModal';
 import { uploadUserPerms } from '../CRUD/utils';
@@ -188,9 +187,6 @@ const RightMenu = ({
     },
   ];
 
-  const onClick = () => {
-    alert('clicked');
-  };
 
   const checkAllowUploads = () => {
     const payload = {
