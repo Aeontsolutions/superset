@@ -76,7 +76,7 @@ extraEnvRaw: []
 
 ## Extra environment variables to pass as secrets
 ##
-extraSecretEnv: {}
+extraSecretEnv: { MAPBOX_API_KEY: pk.eyJ1IjoiZHVqb24tZHVubiIsImEiOiJjbGc2NnBhNTMwYTBkM2ZuNTVoN2hwejc0In0.iQLaqyal3d5ne7c9BhhEbA }
   # MAPBOX_API_KEY: ...
   # # Google API Keys: https://console.cloud.google.com/apis/credentials
   # GOOGLE_KEY: ...
