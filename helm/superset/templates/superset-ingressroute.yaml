@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: superset-ingressroute
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+  - match: Host(`analyticstwo.aeontsolutions.com`)
+    kind: Rule
+    services:
+    - name: superset
+      port: 8088
+  tls:
+    certResolver: default
+    domains:
+    - main: analyticstwo.aeontsolutions.com
