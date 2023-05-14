@@ -36,7 +36,7 @@
   "peerDependencies": {
     "@superset-ui/chart-controls": "*",
     "@superset-ui/core": "*",
-    "react": "^15 || ^16",
-    "mapbox-gl": "*"
+    "mapbox-gl": "*",
+    "react": "^15 || ^16"
   }
 }

@@ -211,7 +211,7 @@ export default class Chart extends React.Component {
 
   getDescriptionHeight() {
     return this.props.isExpanded && this.descriptionRef
-      ? this.descriptionRef.offsetHeight
+      ? this.descriptionRef?.offsetHeight
       : 0;
   }
 
@@ -229,7 +229,7 @@ export default class Chart extends React.Component {
         'margin-bottom',
       );
       const marginBottom = parseInt(computedStyle, 10) || 0;
-      return this.headerRef.offsetHeight + marginBottom;
+      return this.headerRef?.offsetHeight + marginBottom;
     }
     return DEFAULT_HEADER_HEIGHT;
   }

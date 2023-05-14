@@ -41,6 +41,11 @@ import {
 import { FeatureFlag, isFeatureEnabled } from 'src/featureFlags';
 import { AntdSwitch } from 'src/components';
 
+// import SideBar from 'src/components/Sidebar';
+import Layout from 'antd/lib/layout';
+import { Content } from 'antd/lib/layout/layout';
+import { Menu } from 'antd';
+import SubMenu from 'antd/lib/menu/SubMenu';
 import ActivityTable from './ActivityTable';
 import ChartTable from './ChartTable';
 import SavedQueries from './SavedQueries';
@@ -278,6 +283,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     !activityData?.Examples && !activityData?.Viewed;
   return (
     <WelcomeContainer>
+      {/* <SideBar user={user} /> */}
       <WelcomeNav>
         <h1 className="welcome-header">Home</h1>
         {isFeatureEnabled(FeatureFlag.THUMBNAILS) ? (

@@ -118,7 +118,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     } else if (
       headerElement &&
       (headerElement.scrollWidth > headerElement.offsetWidth ||
-        headerElement.scrollHeight > headerElement.offsetHeight)
+        headerElement.scrollHeight > headerElement?.offsetHeight)
     ) {
       setHeaderTooltip(sliceName ?? null);
     } else {

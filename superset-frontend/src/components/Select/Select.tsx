@@ -538,7 +538,7 @@ const Select = (
   const handlePagination = (e: UIEvent<HTMLElement>) => {
     const vScroll = e.currentTarget;
     const thresholdReached =
-      vScroll.scrollTop > (vScroll.scrollHeight - vScroll.offsetHeight) * 0.7;
+      vScroll.scrollTop > (vScroll.scrollHeight - vScroll?.offsetHeight) * 0.7;
     const hasMoreData = page * pageSize + pageSize < totalCount;
 
     if (!isLoading && isAsync && hasMoreData && thresholdReached) {

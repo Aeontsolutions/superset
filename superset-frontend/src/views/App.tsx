@@ -34,6 +34,8 @@ import ToastContainer from 'src/components/MessageToasts/ToastContainer';
 import setupApp from 'src/setup/setupApp';
 import { routes, isFrontendRoute } from 'src/views/routes';
 import { Logger } from 'src/logger/LogUtils';
+import SideBar from 'src/components/Sidebar';
+import Layout, { Content } from 'antd/lib/layout/layout';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
 
@@ -65,18 +67,39 @@ const App = () => (
     <LocationPathnameLogger />
     <RootContextProviders>
       <GlobalStyles />
-      <Menu data={menu} isFrontendRoute={isFrontendRoute} />
-      <Switch>
-        {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-          <Route path={path} key={path}>
-            <Suspense fallback={<Fallback />}>
-              <ErrorBoundary>
-                <Component user={user} {...props} />
-              </ErrorBoundary>
-            </Suspense>
-          </Route>
-        ))}
-      </Switch>
+      <Layout hasSider>
+        <SideBar
+          theme="light"
+          user={user}
+          width={230}
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        />
+        <Layout style={{ marginLeft: 230 }}>
+          <Menu data={menu} isFrontendRoute={isFrontendRoute} />
+          <Content style={{ margin: '24px 26px 0', overflow: 'initial' }}>
+            <Switch>
+              {routes.map(
+                ({ path, Component, props = {}, Fallback = Loading }) => (
+                  <Route path={path} key={path}>
+                    <Suspense fallback={<Fallback />}>
+                      <ErrorBoundary>
+                        <Component user={user} {...props} />
+                      </ErrorBoundary>
+                    </Suspense>
+                  </Route>
+                ),
+              )}
+            </Switch>
+          </Content>
+        </Layout>
+      </Layout>
       <ToastContainer />
     </RootContextProviders>
   </Router>
