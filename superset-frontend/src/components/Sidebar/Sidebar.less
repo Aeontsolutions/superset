@@ -1,0 +1,101 @@
+@bgcolour: #fff;
+@textcolour: #000;
+@hoverbgcolour: #404040;
+@hovertextcolour:#fff;
+
+.fa {
+  // Make the icons stronger
+  font-weight: 300;
+  font-size: 18px;
+}
+
+// Adjust spacing between icon and title
+.fa + span {
+  margin-left: 8px; // Increase or decrease the margin as desired
+}
+// .sidebar-container{
+//     background-color:@bgcolour;
+//     color: @textcolour;
+//    }
+
+// .menu-container{
+//     background-color: @bgcolour;
+//     color: @textcolour;
+// }
+
+// .sub-menu-container{
+//     background-color: @bgcolour;
+//     color: @textcolour;
+//     &:hover{
+//         background-color: @hoverbgcolour;
+//         color: @hovertextcolour;
+//     }
+//     }
+
+// .menu-item-container{
+//     background-color: @bgcolour;
+//     color: @textcolour;
+// }
+
+// .menu-item{
+//     background-color: @bgcolour;
+//     color: @textcolour;
+//     &:hover{
+//         background-color: @hoverbgcolour;
+//         color: @hovertextcolour;
+//     }
+//     &:active{
+//         background-color: @hoverbgcolour;
+//         color: @hovertextcolour;
+//     }
+// }
+
+.narrow-menu .ant-menu-submenu-arrow {
+  display: none;
+}
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0em;
+  background-color: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+
+// .toggle-sidebar-button {
+//   border: none; // Remove the border
+//   float: right; // Align the button to the right
+//   visibility: hidden;
+// }
+
+
+
+.custom-scrollbar:hover .toggle-sidebar-button {
+  visibility: visible;
+}
+
+
+
+
+.custom-scrollbar {
+  position: relative;
+
+  .toggle-sidebar-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    float: right; // Align the button to the right
+    visibility: hidden;
+
+
+    .button-icon {
+      background-color: transparent;
+      color: #000;  /* Change the color of the icon if needed */
+      font-size: 18px;
+      line-height: 1;
+    }
+  }
+}

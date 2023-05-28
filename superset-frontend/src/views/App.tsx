@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
   BrowserRouter as Router,
@@ -41,6 +41,7 @@ import { ScrollToTop } from './ScrollToTop';
 
 setupApp();
 
+
 const user = { ...bootstrapData.user };
 const menu = {
   ...bootstrapData.common.menu_data,
@@ -61,27 +62,40 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
-const App = () => (
+
+const App = () => {
+  const [sidebarWidth, setSidebarWidth] = useState(230); // Initial width value
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  // Function to toggle the sidebar width
+  const toggleSidebarWidth = () => {
+    setSidebarWidth((prevWidth) => (prevWidth === 230 ? 50 : 230));
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  return (
   <Router>
     <ScrollToTop />
     <LocationPathnameLogger />
     <RootContextProviders>
       <GlobalStyles />
       <Layout hasSider>
-        <SideBar
-          theme="light"
-          user={user}
-          width={230}
-          style={{
-            overflow: 'auto',
-            height: '100vh',
-            position: 'fixed',
-            left: 0,
-            top: 0,
-            bottom: 0,
-          }}
-        />
-        <Layout style={{ marginLeft: 230 }}>
+      <SideBar
+        theme="light"
+        user={user}
+        width={sidebarWidth}
+        sideBarVisible={sidebarVisible}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+        }}
+        toggleSideBarWidth= {toggleSidebarWidth}
+      />      
+        <Layout style={{ marginLeft:  sidebarWidth }}>
           <Menu data={menu} isFrontendRoute={isFrontendRoute} />
           <Content style={{ margin: '24px 26px 0', overflow: 'initial' }}>
             <Switch>
@@ -103,6 +117,7 @@ const App = () => (
       <ToastContainer />
     </RootContextProviders>
   </Router>
-);
+  );
+  };
 
 export default hot(App);

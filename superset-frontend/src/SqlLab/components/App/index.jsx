@@ -32,6 +32,7 @@ import * as Actions from 'src/SqlLab/actions/sqlLab';
 import TabbedSqlEditors from '../TabbedSqlEditors';
 import QueryAutoRefresh from '../QueryAutoRefresh';
 
+
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
