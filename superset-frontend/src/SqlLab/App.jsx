@@ -131,6 +131,6 @@ const Application = () => (
       <App />
     </ThemeProvider>
   </Provider>
-  );
+);
 
 export default hot(Application);
