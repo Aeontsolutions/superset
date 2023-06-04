@@ -41,7 +41,6 @@ import { ScrollToTop } from './ScrollToTop';
 
 setupApp();
 
-
 const user = { ...bootstrapData.user };
 const menu = {
   ...bootstrapData.common.menu_data,
@@ -62,62 +61,61 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
-
 const App = () => {
   const [sidebarWidth, setSidebarWidth] = useState(230); // Initial width value
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   // Function to toggle the sidebar width
   const toggleSidebarWidth = () => {
-    setSidebarWidth((prevWidth) => (prevWidth === 230 ? 50 : 230));
+    setSidebarWidth(prevWidth => (prevWidth === 230 ? 50 : 230));
     setSidebarVisible(!sidebarVisible);
   };
 
   return (
-  <Router>
-    <ScrollToTop />
-    <LocationPathnameLogger />
-    <RootContextProviders>
-      <GlobalStyles />
-      <Layout hasSider>
-      <SideBar
-        theme="light"
-        user={user}
-        width={sidebarWidth}
-        sideBarVisible={sidebarVisible}
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-        toggleSideBarWidth= {toggleSidebarWidth}
-      />      
-        <Layout style={{ marginLeft:  sidebarWidth }}>
-          <Menu data={menu} isFrontendRoute={isFrontendRoute} />
-          <Content style={{ margin: '24px 26px 0', overflow: 'initial' }}>
-            <Switch>
-              {routes.map(
-                ({ path, Component, props = {}, Fallback = Loading }) => (
-                  <Route path={path} key={path}>
-                    <Suspense fallback={<Fallback />}>
-                      <ErrorBoundary>
-                        <Component user={user} {...props} />
-                      </ErrorBoundary>
-                    </Suspense>
-                  </Route>
-                ),
-              )}
-            </Switch>
-          </Content>
+    <Router>
+      <ScrollToTop />
+      <LocationPathnameLogger />
+      <RootContextProviders>
+        <GlobalStyles />
+        <Layout hasSider>
+          <SideBar
+            theme="light"
+            user={user}
+            width={sidebarWidth}
+            sideBarVisible={sidebarVisible}
+            style={{
+              overflow: 'auto',
+              height: '100vh',
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              bottom: 0,
+            }}
+            toggleSideBarWidth={toggleSidebarWidth}
+          />
+          <Layout style={{ marginLeft: sidebarWidth }}>
+            <Menu data={menu} isFrontendRoute={isFrontendRoute} />
+            <Content style={{ margin: '24px 26px 0', overflow: 'initial' }}>
+              <Switch>
+                {routes.map(
+                  ({ path, Component, props = {}, Fallback = Loading }) => (
+                    <Route path={path} key={path}>
+                      <Suspense fallback={<Fallback />}>
+                        <ErrorBoundary>
+                          <Component user={user} {...props} />
+                        </ErrorBoundary>
+                      </Suspense>
+                    </Route>
+                  ),
+                )}
+              </Switch>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-      <ToastContainer />
-    </RootContextProviders>
-  </Router>
+        <ToastContainer />
+      </RootContextProviders>
+    </Router>
   );
-  };
+};
 
 export default hot(App);

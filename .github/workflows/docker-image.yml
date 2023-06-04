@@ -29,4 +29,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: us-east1-docker.pkg.dev/apache-superset-378504/custom-superset/custom-supserset:latest
+        tags: us-east1-docker.pkg.dev/apache-superset-378504/custom-superset/custom-supserset:dev
