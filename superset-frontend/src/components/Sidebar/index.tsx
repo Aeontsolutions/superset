@@ -275,8 +275,10 @@ export default function SideBar(props: SideBarProps) {
           }
         >
           <Menu.ItemGroup key="group1" title="Dashboards">
-            {[...dashboardData, ...activityData?.Examples]
-              .filter(dashboard => dashboard.dashboard_title !== undefined)
+            {[...(dashboardData || []), ...(activityData?.Examples || [])]
+              .filter(
+                (dashboard: any) => dashboard.dashboard_title !== undefined,
+              )
               .map((dashboard: any) => (
                 <Menu.Item
                   isSelected={parseInt(dashboard?.id, 10) === 10}
@@ -299,8 +301,8 @@ export default function SideBar(props: SideBarProps) {
           }
         >
           <Menu.ItemGroup key="group2" title="Charts">
-            {[...chartData, ...activityData?.Examples]
-              .filter(chart => chart.slice_name !== undefined)
+            {[...(chartData || []), ...(activityData?.Examples || [])]
+              .filter((chart: any) => chart.slice_name !== undefined)
               .map((chart: any) => (
                 <Menu.Item
                   isSelected={parseInt(chart?.id, 10) === 10}

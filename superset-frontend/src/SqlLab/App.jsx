@@ -125,12 +125,11 @@ if (sqlLabMenu) {
 }
 
 const Application = () => (
-  <Provider store={store} >
+  <Provider store={store}>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <App />
     </ThemeProvider>
-  </Provider>
-  );
+  </Provider>);
 
 export default hot(Application);
