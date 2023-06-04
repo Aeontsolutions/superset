@@ -10,7 +10,7 @@ spec:
   - match: Host(`analyticstwo-dev.aeontsolutions.com`)
     kind: Rule
     services:
-    - name: superset
+    - name: custom-superset-dev
       port: 8088
   tls:
     certResolver: default

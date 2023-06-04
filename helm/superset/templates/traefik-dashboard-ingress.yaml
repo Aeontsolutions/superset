@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: Host(`traefik-dev-dashboard.aeontsolutions.com`)
+  - match: Host(`traefik-dashboard-dev.aeontsolutions.com`)
     kind: Rule
     services:
     - name: api@internal
