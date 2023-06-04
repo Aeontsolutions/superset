@@ -130,6 +130,7 @@ const Application = () => (
       <GlobalStyles />
       <App />
     </ThemeProvider>
-  </Provider>);
+  </Provider>
+  );
 
 export default hot(Application);
