@@ -6,7 +6,14 @@ export default {
   component: SideBar,
 };
 
-export const InteractiveSideBar = () => <SideBar />;
+export const InteractiveSideBar = () => (
+  <SideBar
+    user={undefined}
+    width={10}
+    toggleSideBarWidth={() => {}}
+    sideBarVisible
+  />
+);
 
 InteractiveSideBar.story = {
   parameters: {

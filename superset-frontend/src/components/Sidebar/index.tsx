@@ -130,8 +130,8 @@ export default function SideBar(props: SideBarProps) {
             </span>
           }
         >
-          {[...dashboardData, ...activityData?.Examples]
-            .filter(dashboard => dashboard.dashboard_title !== undefined)
+          {[...(dashboardData || []), ...(activityData?.Examples || [])]
+            .filter((dashboard: any) => dashboard.dashboard_title !== undefined)
             .map((dashboard: any) => (
               <Menu.Item
                 isSelected={parseInt(dashboard?.id, 10) === 10}
@@ -153,8 +153,8 @@ export default function SideBar(props: SideBarProps) {
             </span>
           }
         >
-          {[...chartData, ...activityData?.Examples]
-            .filter(chart => chart.slice_name !== undefined)
+          {[...(chartData || []), ...(activityData?.Examples || [])]
+            .filter((chart: any) => chart.slice_name !== undefined)
             .map((chart: any) => (
               <Menu.Item
                 isSelected={parseInt(chart?.id, 10) === 10}
@@ -389,12 +389,7 @@ export default function SideBar(props: SideBarProps) {
   );
 
   return (
-    <Sider
-      {...props}
-      user={undefined}
-      width={props.width}
-      className="custom-scrollbar"
-    >
+    <Sider {...props} width={props.width} className="custom-scrollbar">
       <Button
         className="toggle-sidebar-button"
         onClick={props.toggleSideBarWidth}

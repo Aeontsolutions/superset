@@ -80,7 +80,7 @@ const App = () => {
         <Layout hasSider>
           <SideBar
             theme="light"
-            user={user}
+            user={user as any}
             width={sidebarWidth}
             sideBarVisible={sidebarVisible}
             style={{

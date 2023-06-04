@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: analyticstwo.aeontsolutions.com
+  - host: analyticstwo-dev.aeontsolutions.com
     http:
       paths:
       - path: /
