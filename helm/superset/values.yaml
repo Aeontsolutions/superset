@@ -117,7 +117,7 @@ extraVolumeMounts: []
 # WARNING: the order is not guaranteed
 configOverrides: 
   my_override: |
-    REDIS_HOST = "superset-redis-master.default.svc.cluster.local"
+    REDIS_HOST = "custom-superset-dev-redis-master.default.svc.cluster.local"
     REDIS_PORT = 6379
     REDIS_CELERY_DB = 0
     REDIS_RESULTS_DB = 1
@@ -167,7 +167,7 @@ configOverrides:
     SECRET_KEY= "275e9918-8242-47cc-8c31-6bafb91e3399"
     ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
     FEATURE_FLAGS = {"ALERT_REPORTS": True}
-    WEBDRIVER_BASEURL = "https://analyticstwo.aeontsolutions.com"
+    WEBDRIVER_BASEURL = "https://analyticstwo-dev.aeontsolutions.com"
     WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
     SQLLAB_CTAS_NO_LIMIT = True
     ENABLE_PROXY_FIX = True
