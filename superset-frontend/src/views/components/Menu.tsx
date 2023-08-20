@@ -24,68 +24,29 @@ import { getUrlParam } from 'src/utils/urlUtils';
 import { Row, Col, Grid } from 'src/components';
 import { MainNav as DropdownMenu, MenuMode } from 'src/components/Menu';
 import { Link } from 'react-router-dom';
+import { GenericLink } from 'src/components/GenericLink/GenericLink';
 import Icons from 'src/components/Icons';
 import { useUiConfig } from 'src/components/UiConfigContext';
 import { URL_PARAMS } from 'src/constants';
-import RightMenu from './MenuRight';
-import { Languages } from './LanguagePicker';
+import {
+  MenuObjectChildProps,
+  MenuObjectProps,
+  MenuData,
+} from 'src/types/bootstrapTypes';
+import RightMenu from './RightMenu';
+import { Tooltip } from 'src/components/Tooltip';
 
-interface BrandProps {
-  path: string;
-  icon: string;
-  alt: string;
-  tooltip: string;
-  text: string;
-}
-
-export interface NavBarProps {
-  show_watermark: boolean;
-  bug_report_url?: string;
-  version_string?: string;
-  version_sha?: string;
-  build_number?: string;
-  documentation_url?: string;
-  languages: Languages;
-  show_language_picker: boolean;
-  user_is_anonymous: boolean;
-  user_info_url: string;
-  user_login_url: string;
-  user_logout_url: string;
-  user_profile_url: string | null;
-  locale: string;
-}
-
-export interface MenuProps {
-  data: {
-    menu: MenuObjectProps[];
-    brand: BrandProps;
-    navbar_right: NavBarProps;
-    settings: MenuObjectProps[];
-  };
+interface MenuProps {
+  data: MenuData;
   isFrontendRoute?: (path?: string) => boolean;
-}
-
-export interface MenuObjectChildProps {
-  label: string;
-  name?: string;
-  icon?: string;
-  index?: number;
-  url?: string;
-  isFrontendRoute?: boolean;
-  perm?: string | boolean;
-  view?: string;
-  disable?: boolean;
-}
-
-export interface MenuObjectProps extends MenuObjectChildProps {
-  childs?: (MenuObjectChildProps | string)[];
-  isHeader?: boolean;
 }
 
 const StyledHeader = styled.header`
   ${({ theme }) => `
       background-color: ${theme.colors.grayscale.light5};
       margin-bottom: 2px;
+      z-index: 10;
+
       &:nth-last-of-type(2) nav {
         margin-bottom: 2px;
       }
@@ -101,7 +62,7 @@ const StyledHeader = styled.header`
         padding: ${theme.gridUnit}px ${theme.gridUnit * 2}px ${
     theme.gridUnit
   }px ${theme.gridUnit * 4}px;
-        max-width: ${theme.gridUnit * 37}px;
+        max-width: ${theme.gridUnit * theme.brandIconMaxWidth}px;
         img {
           height: 100%;
           object-fit: contain;
@@ -154,7 +115,7 @@ const StyledHeader = styled.header`
         .ant-menu > .ant-menu-item > a {
           padding: 0px;
         }
-        .main-nav .ant-menu-submenu-title > svg:nth-child(1) {
+        .main-nav .ant-menu-submenu-title > svg:nth-of-type(1) {
           display: none;
         }
         .ant-menu-item-active > a {
@@ -198,7 +159,13 @@ const { SubMenu } = DropdownMenu;
 const { useBreakpoint } = Grid;
 
 export function Menu({
-  data: { menu, brand, navbar_right: navbarRight, settings },
+  data: {
+    menu,
+    brand,
+    navbar_right: navbarRight,
+    settings,
+    environment_tag: environmentTag,
+  },
   isFrontendRoute = () => false,
 }: MenuProps) {
   const [showMenu, setMenu] = useState<MenuMode>('horizontal');
@@ -280,16 +247,22 @@ export function Menu({
       <Global styles={globalStyles(theme)} />
       <Row>
         <Col md={16} xs={24}>
-          {/* <Tooltip
+          <Tooltip
             id="brand-tooltip"
             placement="bottomLeft"
             title={brand.tooltip}
             arrowPointAtCenter
           >
-            <a className="navbar-brand" href={brand.path}>
-              <img src={brand.icon} alt={brand.alt} />
-            </a>
-          </Tooltip> */}
+            {isFrontendRoute(window.location.pathname) ? (
+              <GenericLink className="navbar-brand" to={brand.path}>
+                <img src={brand.icon} alt={brand.alt} />
+              </GenericLink>
+            ) : (
+              <a className="navbar-brand" href={brand.path}>
+                <img src={brand.icon} alt={brand.alt} />
+              </a>
+            )}
+          </Tooltip>
           {brand.text && (
             <div className="navbar-brand-text">
               <span>{brand.text}</span>
@@ -327,6 +300,7 @@ export function Menu({
             settings={settings}
             navbarRight={navbarRight}
             isFrontendRoute={isFrontendRoute}
+            environmentTag={environmentTag}
           />
         </Col>
       </Row>
@@ -341,6 +315,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   };
   // Menu items that should go into settings dropdown
   const settingsMenus = {
+    Data: true,
     Security: true,
     Manage: true,
   };

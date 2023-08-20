@@ -26,7 +26,7 @@ x-superset-volumes: &superset-volumes
 version: "3.7"
 services:
   redis:
-    image: redis:latest
+    image: redis:7
     container_name: superset_cache
     restart: unless-stopped
     volumes:
@@ -58,6 +58,19 @@ services:
     command: ["/app/docker/docker-init.sh"]
     env_file: docker/.env-non-dev
     depends_on: *superset-depends-on
+    user: *superset-user
+    volumes: *superset-volumes
+    environment:
+      CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
+    healthcheck:
+      disable: true
+
+  superset-node:
+    image: node:16
+    container_name: superset_node
+    command: ["/app/docker/docker-frontend.sh"]
+    env_file: docker/.env
+    depends_on: *superset-depends-on
     user: "root"
     volumes: *superset-volumes
 
@@ -70,6 +83,11 @@ services:
     depends_on: *superset-depends-on
     user: "root"
     volumes: *superset-volumes
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
+    # Bump memory limit if processing selenium / thumbnails on superset-worker
+    # mem_limit: 2038m
+    # mem_reservation: 128M
 
   superset-worker-beat:
     image: *superset-image
@@ -78,8 +96,28 @@ services:
     env_file: docker/.env-non-dev
     restart: unless-stopped
     depends_on: *superset-depends-on
-    user: "root"
+    user: *superset-user
     volumes: *superset-volumes
+    healthcheck:
+      disable: true
+
+  superset-tests-worker:
+    image: *superset-image
+    container_name: superset_tests_worker
+    command: ["/app/docker/docker-bootstrap.sh", "worker"]
+    env_file: docker/.env
+    environment:
+      DATABASE_HOST: localhost
+      DATABASE_DB: test
+      REDIS_CELERY_DB: 2
+      REDIS_RESULTS_DB: 3
+      REDIS_HOST: localhost
+    network_mode: host
+    depends_on: *superset-depends-on
+    user: *superset-user
+    volumes: *superset-volumes
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
 
 volumes:
   superset_home:

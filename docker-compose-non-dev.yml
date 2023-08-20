@@ -30,7 +30,7 @@ x-superset-volumes: &superset-volumes
 version: "3.7"
 services:
   redis:
-    image: redis:latest
+    image: redis:7
     container_name: superset_cache
     restart: unless-stopped
     ports:
@@ -108,6 +108,8 @@ services:
     env_file: docker/.env
     depends_on: *superset-depends-on
     volumes: *superset-volumes
+    healthcheck:
+      disable: true
 
   superset-worker:
     image: *superset-image
@@ -118,9 +120,8 @@ services:
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
-    # Bump memory limit if processing selenium / thumbnails on superset-worker
-    # mem_limit: 2038m
-    # mem_reservation: 128M
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
 
   superset-worker-beat:
     image: *superset-image
@@ -147,6 +148,8 @@ services:
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
+    healthcheck:
+      disable: true
 
 volumes:
   superset_home:
