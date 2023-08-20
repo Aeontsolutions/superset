@@ -1,0 +1,48 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: traefik-deployment
+  labels:
+    app: traefik
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik-account
+      containers:
+        - name: traefik
+          image: traefik:v2.10
+          args:
+            - --api.insecure
+            - --providers.kubernetesingress=true
+            - --certificatesresolvers.default.acme.tlschallenge=false
+            - --certificatesresolvers.default.acme.dnschallenge=false
+            - --certificatesresolvers.default.acme.dnschallenge.provider=gcloud
+            - --certificatesresolvers.default.acme.dnschallenge.delaybeforecheck=0
+            - --certificatesresolvers.default.acme.dnschallenge.resolvers=8.8.8.8:53,8.8.4.4:53
+            - --certificatesresolvers.default.acme.httpchallenge=true
+            - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
+            - --certificatesresolvers.default.acme.email=romaine.murray@aeontsolutions.com
+            - --entrypoints.web.http.redirections.entrypoint.scheme=https
+            - --entrypoints.web.http.redirections.entrypoint.permanent=true
+            - --entrypoints.web.http.redirections.entrypoint.to=websecure
+            - --entrypoints.websecure.address=:443
+            - --entrypoints.web.address=:80
+            - --entrypoints.websecure.http.tls=true
+            - --entrypoints.websecure.http.tls.certResolver=default
+            # - --certificatesresolvers.default.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+
+          ports:
+            - name: web
+              containerPort: 80
+            - name: dashboard
+              containerPort: 8080
+            - name: websecure
+              containerPort: 443

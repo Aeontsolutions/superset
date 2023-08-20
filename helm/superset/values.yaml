@@ -218,7 +218,7 @@ configMountPath: "/app/pythonpath"
 extraConfigMountPath: "/app/configs"
 
 image:
-  repository: us-east1-docker.pkg.dev/apache-superset-378504/custom-superset/custom-supserset
+  repository: 925030480327.dkr.ecr.us-east-1.amazonaws.com/superset-dev
   tag: dev
   pullPolicy: Always
 

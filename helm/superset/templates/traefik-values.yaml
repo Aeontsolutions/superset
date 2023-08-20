@@ -1,6 +1,6 @@
 image:
   name: traefik
-  tag: 2.10.1
+  tag: 2.10
 
 
 # dnsChallenge:
@@ -69,7 +69,7 @@ service:
       targetPort: 8080
     websecure:
       port: 443
-      targetPort: 8443
+      targetPort: 443
 
 providers:
   kubernetesIngress:

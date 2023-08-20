@@ -222,14 +222,14 @@ export default function SideBar(props: SideBarProps) {
             </span>
           }
         >
-          <Menu.Item title="Aida (AI Powered Chatbot)">
+          <Menu.Item title="Jacie (AI Powered Chatbot)">
             <a
-              href="https://aida.aeontsolutions.com/"
+              href="https://jse.aeontsolutions.com/"
               target="_blank"
               rel="noopener noreferrer"
-              title={t('Aida Chatbot')}
+              title={t('Jacie Chatbot')}
             >
-              Aida Chatbot
+              Jacie Chatbot
             </a>
           </Menu.Item>
         </SubMenu>
@@ -374,14 +374,14 @@ export default function SideBar(props: SideBarProps) {
           }
         >
           <Menu.ItemGroup key="group5" title="Resources">
-            <Menu.Item title="Aida (AI Powered Chatbot)">
+            <Menu.Item title="Jacie (AI Powered Chatbot)">
               <a
-                href="https://aida.aeontsolutions.com/"
+                href="https://jse.aeontsolutions.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                title={t('Aida Chatbot')}
+                title={t('Jacie Chatbot')}
               >
-                Aida Chatbot
+                Jacie Chatbot
               </a>
             </Menu.Item>
           </Menu.ItemGroup>

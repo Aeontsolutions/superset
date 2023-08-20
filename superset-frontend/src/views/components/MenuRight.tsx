@@ -275,9 +275,9 @@ const RightMenu = ({
       >
         {!navbarRight.user_is_anonymous && (
           <StyledAnchor
-            href="https://aida.aeontsolutions.com"
+            href="https://jse.aeontsolutions.com"
             target="_blank"
-            title={t('Aida Chatbot')}
+            title={t('Jacie Chatbot')}
           >
             <span
               style={{
@@ -285,7 +285,7 @@ const RightMenu = ({
                 marginRight: '3px',
               }}
             >
-              Aida Chatbot
+              Jacie Chatbot
             </span>
             <i className="fa fa-external-link" />
           </StyledAnchor>
