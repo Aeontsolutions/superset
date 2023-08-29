@@ -35,10 +35,9 @@
     "encodable": "^0.7.6"
   },
   "peerDependencies": {
-    "@types/react": "*",
-    "@types/lodash": "*",
     "@superset-ui/chart-controls": "*",
     "@superset-ui/core": "*",
+    "@types/lodash": "*",
     "@types/react": "*",
     "react": "^16.13.1"
   }

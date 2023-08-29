@@ -36,7 +36,7 @@ jobs:
 
     - name: Set up kubectl for EKS cluster
       run: |
-        aws eks update-kubeconfig --name [YOUR_EKS_CLUSTER_NAME]
+        aws eks update-kubeconfig --name ${EKS_CLUSTER_NAME}
 
     - name: Set up Helm
       uses: azure/setup-helm@v1
@@ -45,9 +45,9 @@ jobs:
 
     - name: Add Helm repo (if needed)
       run: |
-        helm repo add [YOUR_REPO_NAME] [YOUR_REPO_URL]
+        helm repo add superset https://apache.github.io/superset
         helm repo update
 
     - name: Helm Upgrade
       run: |
-        helm upgrade [RELEASE_NAME] [YOUR_REPO_NAME]/[CHART_NAME] --namespace [NAMESPACE] --set image.tag=dev
+        helm upgrade  --set image.tag=dev

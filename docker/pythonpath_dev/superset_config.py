@@ -108,12 +108,19 @@ SMTP_SSL_SERVER_AUTH = False
 SMTP_SSL = False
 SMTP_USER = "romaine.murray@aeontsolutions.com"
 SMTP_PASSWORD = "f3JGaStzWBKt"
-SMTP_MAIL_FROM = "no-reply@aeontsolutions.com"
+SMTP_MAIL_FROM = "noreply@aeontsolutions.com"
 SECRET_KEY= "275e9918-8242-47cc-8c31-6bafb91e3399"
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
-WEBDRIVER_BASEURL = "https://analyticstwo.aeontsolutions.com/"
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_VIRTUALIZATION": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DRILL_TO_DETAIL": True,
+    "GENERIC_CHART_AXES": True,
+}
+WEBDRIVER_BASEURL = "https://analyticsaws-dev.aeontsolutions.com/"
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 

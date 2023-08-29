@@ -247,7 +247,7 @@ export function Menu({
       <Global styles={globalStyles(theme)} />
       <Row>
         <Col md={16} xs={24}>
-          <Tooltip
+          {/* <Tooltip
             id="brand-tooltip"
             placement="bottomLeft"
             title={brand.tooltip}
@@ -262,7 +262,7 @@ export function Menu({
                 <img src={brand.icon} alt={brand.alt} />
               </a>
             )}
-          </Tooltip>
+          </Tooltip> */}
           {brand.text && (
             <div className="navbar-brand-text">
               <span>{brand.text}</span>

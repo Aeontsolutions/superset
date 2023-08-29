@@ -48,6 +48,7 @@ module.exports = {
     ],
   ],
   plugins: [
+    '@emotion',
     'lodash',
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-class-properties', { loose: true }],

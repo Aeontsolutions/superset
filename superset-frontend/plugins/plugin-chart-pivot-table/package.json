@@ -29,11 +29,10 @@
     "@ant-design/icons": "^4.2.2",
     "@superset-ui/chart-controls": "*",
     "@superset-ui/core": "*",
+    "lodash": "^4.17.11",
     "prop-types": "*",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "prop-types": "*",
-    "lodash": "^4.17.11"
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@babel/types": "^7.13.12",

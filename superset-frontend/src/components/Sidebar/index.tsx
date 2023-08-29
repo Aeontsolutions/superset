@@ -4,7 +4,7 @@ import { SiderProps } from 'antd/lib/layout';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
 import {
   createErrorHandler,
-  getRecentAcitivtyObjs,
+  getRecentActivityObjs,
   getUserOwnedObjects,
 } from 'src/views/CRUD/utils';
 import SubMenu from 'antd/lib/menu/SubMenu';
@@ -28,9 +28,11 @@ interface SideBarProps extends SiderProps {
 }
 
 export default function SideBar(props: SideBarProps) {
-  const userid = props.user?.userId;
+  const { user, sideBarVisible, toggleSideBarWidth, width, ...restProps } =
+    props;
+  const userid = user?.userId;
   const id = userid!.toString();
-  const recent = `/superset/recent_activity/${props.user?.userId}/?limit=6`;
+  const recent = `/superset/recent_activity/${user?.userId}/?limit=6`;
   const [dashboardData, setDashboardData] = useState<Array<object> | null>(
     null,
   );
@@ -40,11 +42,12 @@ export default function SideBar(props: SideBarProps) {
   // const [sidebarVisible, setSidebarVisible] = useState(true);
 
   useEffect(() => {
-    getRecentAcitivtyObjs(userid!, recent, addDangerToast)
+    getRecentActivityObjs(userid!, recent, addDangerToast, [])
       .then(res => {
-        const data: ActivityData | null = {};
-        data.Examples = res.examples;
-        setActivityData(activityData => ({ ...activityData, ...data }));
+        console.log(res);
+        // const data: ActivityData | null = {};
+        // data.Examples = res.examples;
+        setActivityData(activityData => ({ ...activityData }));
       })
       .catch(
         createErrorHandler((errMsg: unknown) => {
@@ -72,7 +75,7 @@ export default function SideBar(props: SideBarProps) {
       });
   }, []);
 
-  const isRecentActivityLoading = !activityData?.Examples;
+  // const isRecentActivityLoading = !activityData?.Examples;
 
   // const handleToggleSidebar = () => {
   //   props.toggleSideBarWidth;
@@ -130,7 +133,7 @@ export default function SideBar(props: SideBarProps) {
             </span>
           }
         >
-          {[...(dashboardData || []), ...(activityData?.Examples || [])]
+          {[...(dashboardData || []), ...[]]
             .filter((dashboard: any) => dashboard.dashboard_title !== undefined)
             .map((dashboard: any) => (
               <Menu.Item
@@ -153,7 +156,7 @@ export default function SideBar(props: SideBarProps) {
             </span>
           }
         >
-          {[...(chartData || []), ...(activityData?.Examples || [])]
+          {[...(chartData || []), ...[]]
             .filter((chart: any) => chart.slice_name !== undefined)
             .map((chart: any) => (
               <Menu.Item
@@ -275,7 +278,7 @@ export default function SideBar(props: SideBarProps) {
           }
         >
           <Menu.ItemGroup key="group1" title="Dashboards">
-            {[...(dashboardData || []), ...(activityData?.Examples || [])]
+            {[...(dashboardData || []), ...[]]
               .filter(
                 (dashboard: any) => dashboard.dashboard_title !== undefined,
               )
@@ -301,7 +304,7 @@ export default function SideBar(props: SideBarProps) {
           }
         >
           <Menu.ItemGroup key="group2" title="Charts">
-            {[...(chartData || []), ...(activityData?.Examples || [])]
+            {[...(chartData || []), ...[]]
               .filter((chart: any) => chart.slice_name !== undefined)
               .map((chart: any) => (
                 <Menu.Item
@@ -391,17 +394,14 @@ export default function SideBar(props: SideBarProps) {
   );
 
   return (
-    <Sider {...props} width={props.width} className="custom-scrollbar">
-      <Button
-        className="toggle-sidebar-button"
-        onClick={props.toggleSideBarWidth}
-      >
-        {props.sideBarVisible ? <LeftOutlined /> : <RightOutlined />}
+    <Sider {...restProps} width={width} className="custom-scrollbar">
+      <Button className="toggle-sidebar-button" onClick={toggleSideBarWidth}>
+        {sideBarVisible ? <LeftOutlined /> : <RightOutlined />}
       </Button>
 
-      {!dashboardData || isRecentActivityLoading ? (
+      {!dashboardData ? (
         <Loading position="inline-centered" />
-      ) : props.width === 230 ? (
+      ) : width === 230 ? (
         // Render wide sidebar menu
         renderWideMenu()
       ) : (

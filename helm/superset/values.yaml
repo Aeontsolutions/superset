@@ -181,11 +181,11 @@ configOverrides:
     SMTP_SSL = False
     SMTP_USER = "romaine.murray@aeontsolutions.com"
     SMTP_PASSWORD = "f3JGaStzWBKt"
-    SMTP_MAIL_FROM = "no-reply@aeontsolutions.com"
+    SMTP_MAIL_FROM = "noreply@aeontsolutions.com"
     SECRET_KEY= "275e9918-8242-47cc-8c31-6bafb91e3399"
     ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
     FEATURE_FLAGS = {"ALERT_REPORTS": True}
-    WEBDRIVER_BASEURL = "https://analyticstwo-dev.aeontsolutions.com"
+    WEBDRIVER_BASEURL = "https://analyticsaws-dev.aeontsolutions.com"
     WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
     SQLLAB_CTAS_NO_LIMIT = True
     ENABLE_PROXY_FIX = True
