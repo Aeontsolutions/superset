@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// eslint-disable-next-line import/extensions
 import { TABBED_DASHBOARD, drag, resize } from './dashboard.helper';
 
 describe('Dashboard edit markdown', () => {

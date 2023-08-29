@@ -33,8 +33,8 @@ import {
   MenuObjectProps,
   MenuData,
 } from 'src/types/bootstrapTypes';
-import RightMenu from './RightMenu';
 import { Tooltip } from 'src/components/Tooltip';
+import RightMenu from './RightMenu';
 
 interface MenuProps {
   data: MenuData;

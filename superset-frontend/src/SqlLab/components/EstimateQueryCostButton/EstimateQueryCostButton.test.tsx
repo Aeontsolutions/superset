@@ -61,7 +61,7 @@ describe('EstimateQueryCostButton', () => {
   it('renders EstimateQueryCostButton', async () => {
     const { queryByText } = setup({}, mockStore(initialState));
 
-    expect(queryByText('Estimate cost')).toBeTruthy();
+    expect(queryByText('Estimate cost')).toBeInTheDocument();
   });
 
   it('renders label for selected query', async () => {
@@ -70,7 +70,7 @@ describe('EstimateQueryCostButton', () => {
       mockStore(initialState),
     );
 
-    expect(queryByText('Estimate selected query cost')).toBeTruthy();
+    expect(queryByText('Estimate selected query cost')).toBeInTheDocument();
   });
 
   it('renders label for selected query from unsaved', async () => {
@@ -88,6 +88,6 @@ describe('EstimateQueryCostButton', () => {
       }),
     );
 
-    expect(queryByText('Estimate selected query cost')).toBeTruthy();
+    expect(queryByText('Estimate selected query cost')).toBeInTheDocument();
   });
 });

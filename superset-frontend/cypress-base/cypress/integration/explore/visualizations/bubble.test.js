@@ -70,6 +70,7 @@ describe('Visualization > Bubble', () => {
         },
       ],
     });
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('[data-test="chart-container"]')
       .should('be.visible')
       .within(() => {
@@ -89,9 +90,10 @@ describe('Visualization > Bubble', () => {
     cy.visitChartByParams(BUBBLE_FORM_DATA);
 
     cy.get('.Control[data-test="color_scheme"]').scrollIntoView();
-    cy.get('.Control[data-test="color_scheme"] input[type="search"]')
-      .focus()
-      .type('supersetColors{enter}');
+    cy.get('.Control[data-test="color_scheme"] input[type="search"]').focus();
+    cy.get('.Control[data-test="color_scheme"] input[type="search"]').type(
+      'supersetColors{enter}',
+    );
     cy.get(
       '.Control[data-test="color_scheme"] .ant-select-selection-item [data-test="supersetColors"]',
     ).should('exist');

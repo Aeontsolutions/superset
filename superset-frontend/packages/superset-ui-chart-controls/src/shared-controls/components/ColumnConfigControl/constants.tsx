@@ -163,7 +163,7 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
 };
 
 export type SharedColumnConfig = {
-  [key in SharedColumnConfigProp]?: typeof SHARED_COLUMN_CONFIG_PROPS[key]['value'];
+  [key in SharedColumnConfigProp]?: (typeof SHARED_COLUMN_CONFIG_PROPS)[key]['value'];
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {

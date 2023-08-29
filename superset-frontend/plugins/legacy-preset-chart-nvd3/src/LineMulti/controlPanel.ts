@@ -103,7 +103,7 @@ const config: ControlPanelConfig = {
               placeholder: t('Select charts'),
               onAsyncErrorMessage: t('Error while fetching charts'),
               mutator: (data?: Data) => {
-                if (!data || !data.result) {
+                if (!data?.result) {
                   return [];
                 }
                 return data.result.map(o => ({
@@ -138,7 +138,7 @@ const config: ControlPanelConfig = {
               placeholder: t('Select charts'),
               onAsyncErrorMessage: t('Error while fetching charts'),
               mutator: (data: Data) => {
-                if (!data || !data.result) {
+                if (!data?.result) {
                   return [];
                 }
                 return data.result.map(o => ({

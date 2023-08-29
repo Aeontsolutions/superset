@@ -147,6 +147,8 @@ module.exports = {
         'react/static-property-placement': 0, // re-enable up for discussion
         'prettier/prettier': 'error',
         'file-progress/activate': 1,
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
+        'react/default-props-match-prop-types': 0,
       },
       settings: {
         'import/resolver': {
@@ -189,6 +191,8 @@ module.exports = {
         ],
         'no-only-tests/no-only-tests': 'error',
         'max-classes-per-file': 0,
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
+        'react/default-props-match-prop-types': 0,
       },
     },
     {
@@ -208,12 +212,16 @@ module.exports = {
         'theme-colors/no-literal-colors': 0,
         'translation-vars/no-template-vars': 0,
         'no-restricted-imports': 0,
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
+        'react/default-props-match-prop-types': 0,
       },
     },
   ],
   rules: {
     'theme-colors/no-literal-colors': 'error',
     'translation-vars/no-template-vars': ['error', true],
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
+    'react/default-props-match-prop-types': 0,
     camelcase: [
       'error',
       {

@@ -25,6 +25,7 @@
     "react/no-unescaped-entities": 2,
     "react/no-string-refs": 2,
     "react/jsx-indent": 0,
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
   }
 }

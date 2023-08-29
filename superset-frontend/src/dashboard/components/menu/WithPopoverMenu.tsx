@@ -109,18 +109,18 @@ export default class WithPopoverMenu extends React.PureComponent<
 > {
   container: ShouldFocusContainer;
 
-  static defaultProps = {
-    children: null,
-    disableClick: false,
-    onChangeFocus: null,
-    menuItems: [],
-    isFocused: false,
-    shouldFocus: (event: any, container: ShouldFocusContainer) =>
-      container?.contains(event.target) ||
-      event.target.id === 'menu-item' ||
-      event.target.parentNode?.id === 'menu-item',
-    style: null,
-  };
+  // static defaultProps = {
+  //   children: null,
+  //   disableClick: false,
+  //   onChangeFocus: null,
+  //   menuItems: [],
+  //   isFocused: false,
+  //   shouldFocus: (event: any, container: ShouldFocusContainer) =>
+  //     container?.contains(event.target) ||
+  //     event.target.id === 'menu-item' ||
+  //     event.target.parentNode?.id === 'menu-item',
+  //   style: null,
+  // };
 
   constructor(props: WithPopoverMenuProps) {
     super(props);
