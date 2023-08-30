@@ -45,6 +45,7 @@ const DEFAULT_QUERIES_DATA = [
 ];
 
 function expectDimension(
+  // @ts-ignore
   renderedWrapper: Cheerio,
   width: number,
   height: number,

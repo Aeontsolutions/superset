@@ -127,6 +127,13 @@ const DynamicComponent: FC<FilterSummaryType> = ({
             />,
           ]}
           editMode={editMode}
+          onChangeFocus={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          isFocused={false}
+          disableClick={false}
+          shouldFocus={() => false}
+          style={{}}
         >
           <div
             data-test={`dashboard-${component.componentKey}`}

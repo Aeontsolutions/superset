@@ -27,9 +27,9 @@ export default function createMarginSelector(
 ) {
   return createSelector(
     (margin: Partial<Margin>) => margin.bottom,
-    margin => margin.left,
-    margin => margin.right,
-    margin => margin.top,
+    (margin: { left: any }) => margin.left,
+    (margin: { right: any }) => margin.right,
+    (margin: { top: any }) => margin.top,
     (
       bottom = defaultMargin.bottom,
       left = defaultMargin.left,

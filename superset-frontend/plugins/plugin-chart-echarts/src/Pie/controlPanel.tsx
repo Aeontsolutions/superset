@@ -259,7 +259,11 @@ const config: ControlPanelConfig = {
     row_limit:
       ensureIsInt(formData.row_limit, 100) >= 100 ? 100 : formData.row_limit,
   }),
-  updateStandardizedState: (prevState, currState) => ({
+  // @ts-ignore
+  updateStandardizedState: (
+    prevState: { metrics: string | any[] },
+    currState: { metrics: any[] },
+  ) => ({
     ...currState,
     metrics: [currState.metrics[0], ...prevState.metrics.slice(1)],
   }),

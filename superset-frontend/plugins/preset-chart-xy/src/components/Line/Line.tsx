@@ -18,7 +18,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { kebabCase, groupBy, flatMap, uniqueId, values } from 'lodash';
+import { kebabCase, groupBy, flatMap, uniqueId, values, List } from 'lodash';
 import {
   AreaSeries,
   LinearGradient,
@@ -111,18 +111,25 @@ export default class LineChart extends PureComponent<Props> {
   private createAllSeries = createSelector(
     (input: { encoder: LineEncoder; data: Dataset }) => input.encoder,
     input => input.data,
-    (encoder, data) => {
+    (
+      encoder: { getGroupBys?: any; channels?: any },
+      data: List<any> | null | undefined,
+    ) => {
+      // @ts-ignore
       const { channels } = encoder;
+      // @ts-ignore
       const fieldNames = encoder.getGroupBys();
 
       const groups = groupBy(data, row =>
-        fieldNames.map(f => `${f}=${row[f]}`).join(','),
+        fieldNames.map((f: string | number) => `${f}=${row[f]}`).join(','),
       );
 
       const allSeries = values(groups).map(seriesData => {
         const firstDatum = seriesData[0];
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        const key = fieldNames.map(f => firstDatum[f]).join(',');
+        const key = fieldNames
+          .map((f: string | number) => firstDatum[f])
+          .join(',');
         const series: Series = {
           key: key.length === 0 ? channels.y.getTitle() : key,
           fill: channels.fill.encodeDatum(firstDatum, false),
@@ -134,7 +141,9 @@ export default class LineChart extends PureComponent<Props> {
 
         series.values = seriesData
           .map(v => ({
+            // @ts-ignore
             x: channels.x.getValueFromDatum<Date | number>(v),
+            // @ts-ignore
             y: channels.y.getValueFromDatum<number>(v),
             data: v,
             parent: series,
@@ -205,7 +214,7 @@ export default class LineChart extends PureComponent<Props> {
   renderChart = (dim: Dimension) => {
     const { width, height } = dim;
     const { data, margin, theme, TooltipRenderer, encoding } = this.props;
-
+    // @ts-ignore
     const encoder = this.createEncoder(encoding);
     const { channels } = encoder;
 
@@ -310,6 +319,7 @@ export default class LineChart extends PureComponent<Props> {
         height={height}
         position="top"
         renderLegend={createRenderLegend(
+          // @ts-ignore
           this.createEncoder(encoding),
           data,
           this.props,

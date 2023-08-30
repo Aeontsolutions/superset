@@ -69,6 +69,7 @@ describe('plugin-chart-table', () => {
 
   describe('TableChart', () => {
     let wrap: CommonWrapper; // the ReactDataTable wrapper
+    // @ts-expect-error Cheerio is not typed
     let tree: Cheerio;
 
     it('render basic data', () => {

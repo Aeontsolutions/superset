@@ -157,7 +157,7 @@ class WordCloud extends React.PureComponent<
 
   update() {
     const { data, encoding } = this.props;
-
+    // @ts-ignore
     const encoder = this.createEncoder(encoding);
     encoder.setDomainFromDataset(data);
 
@@ -220,7 +220,7 @@ class WordCloud extends React.PureComponent<
     const { scaleFactor } = this.state;
     const { width, height, encoding, sliceId } = this.props;
     const { words } = this.state;
-
+    // @ts-ignore
     const encoder = this.createEncoder(encoding);
     encoder.channels.color.setDomainFromDataset(words);
 

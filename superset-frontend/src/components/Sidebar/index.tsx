@@ -37,7 +37,7 @@ export default function SideBar(props: SideBarProps) {
     null,
   );
   const [chartData, setChartData] = useState<Array<object> | null>(null);
-  const [activityData, setActivityData] = useState<ActivityData | null>(null);
+  const [setActivityData] = useState<ActivityData | null>(null);
   // const [sidebarWidth, setSidebarWidth] = useState(225);
   // const [sidebarVisible, setSidebarVisible] = useState(true);
 

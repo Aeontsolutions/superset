@@ -24,6 +24,8 @@ import windowed from './windowed';
 export * from './windowed';
 
 export const WindowedSelect = windowed(Select);
+// @ts-ignore
 export const WindowedCreatableSelect = windowed(Creatable);
+// @ts-ignore
 export const WindowedAsyncCreatableSelect = windowed(AsyncCreatable);
 export default WindowedSelect;

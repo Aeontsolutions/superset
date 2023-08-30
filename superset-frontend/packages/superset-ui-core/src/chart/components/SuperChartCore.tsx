@@ -101,10 +101,11 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
       transformProps?: TransformProps;
       postTransformProps?: PostTransformProps;
     }) => input.chartProps,
-    input => input.preTransformProps,
+    (input: { preTransformProps: any }) => input.preTransformProps,
     input => input.transformProps,
     input => input.postTransformProps,
     (chartProps, pre = IDENTITY, transform = IDENTITY, post = IDENTITY) =>
+      // @ts-ignore
       post(transform(pre(chartProps))),
   );
 
@@ -120,14 +121,17 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
     (input: { chartType: string; overrideTransformProps?: TransformProps }) =>
       input.chartType,
     input => input.overrideTransformProps,
-    (chartType, overrideTransformProps) => {
+    (chartType: string, overrideTransformProps: {}) => {
       if (chartType) {
         const Renderer = createLoadableRenderer({
           loader: {
+            // @ts-ignore
             Chart: () => getChartComponentRegistry().getAsPromise(chartType),
+            // @ts-ignore
             transformProps: overrideTransformProps
               ? () => Promise.resolve(overrideTransformProps)
-              : () => getChartTransformPropsRegistry().getAsPromise(chartType),
+              : // @ts-ignore
+                () => getChartTransformPropsRegistry().getAsPromise(chartType),
           },
           loading: (loadingProps: LoadingProps) =>
             this.renderLoading(loadingProps, chartType),

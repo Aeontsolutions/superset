@@ -65,7 +65,7 @@ type AnyReactSelect<OptionType extends OptionTypeBase> =
   | BasicSelect<OptionType>
   | Async<OptionType>
   | Creatable<OptionType>
-  | AsyncCreatable<OptionType>;
+  | AsyncCreatable<OptionType, any>;
 
 export type SupersetStyledSelectProps<
   OptionType extends OptionTypeBase,
@@ -83,7 +83,9 @@ export type SupersetStyledSelectProps<
   selectRef?:
     | React.RefCallback<AnyReactSelect<OptionType>>
     | MutableRefObject<AnyReactSelect<OptionType>>;
-  getInputValue?: (selectBalue: ValueType<OptionType>) => string | undefined;
+  getInputValue?: (
+    selectBalue: ValueType<OptionType, any>,
+  ) => string | undefined;
   optionRenderer?: (option: OptionType) => React.ReactNode;
   valueRenderer?: (option: OptionType) => React.ReactNode;
   valueRenderedAsLabel?: boolean;
@@ -104,14 +106,14 @@ function styled<
       > = WindowedSelectComponentType<OptionType>,
 >(SelectComponent: SelectComponentType) {
   type SelectProps = SupersetStyledSelectProps<OptionType>;
-  type Components = SelectComponents<OptionType>;
+  type Components = SelectComponents<OptionType, any>;
 
   const SortableSelectComponent = SortableContainer(SelectComponent, {
     withRef: true,
   });
 
   // default components for the given OptionType
-  const supersetDefaultComponents: SelectComponentsConfig<OptionType> =
+  const supersetDefaultComponents: SelectComponentsConfig<OptionType, any> =
     DEFAULT_COMPONENTS;
 
   const getSortableMultiValue = (MultiValue: Components['MultiValue']) =>
@@ -171,7 +173,7 @@ function styled<
 
       formatOptionLabel = (
         option: OptionType,
-        { context }: FormatOptionLabelMeta<OptionType>,
+        { context }: FormatOptionLabelMeta<OptionType, any>,
       ) => {
         if (context === 'value') {
           return valueRenderer ? valueRenderer(option) : getOptionLabel(option);
@@ -210,6 +212,7 @@ function styled<
         onSortEnd: ({ oldIndex, newIndex }) => {
           const newValue = arrayMove(value, oldIndex, newIndex);
           if (restProps.onChange) {
+            // @ts-ignore
             restProps.onChange(newValue, { action: 'set-value' });
           }
         },
@@ -281,6 +284,7 @@ function styled<
     const theme = useTheme();
 
     return (
+      // @ts-ignore
       <MaybeSortableSelect
         ref={setRef}
         className={className}

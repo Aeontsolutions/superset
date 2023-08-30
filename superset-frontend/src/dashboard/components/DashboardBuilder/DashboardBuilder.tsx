@@ -570,7 +570,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     }
 
     currentTopLevelTabs.current = topLevelTabs;
-  }, [topLevelTabs]);
+  }, [dashboardLayout, dispatch, topLevelTabs]);
 
   const renderDraggableContent = useCallback(
     ({ dropIndicatorProps }: { dropIndicatorProps: JsonObject }) => (
@@ -592,6 +592,10 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               />,
             ]}
             editMode={editMode}
+            disableClick={false}
+            onChangeFocus={() => {}}
+            isFocused={false}
+            style={{}}
           >
             {/* @ts-ignore */}
             <DashboardComponent

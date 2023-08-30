@@ -45,7 +45,7 @@ export type WindowedSelectComponentType<OptionType extends OptionTypeBase> =
 export function MenuList<OptionType extends OptionTypeBase>({
   children,
   ...props
-}: MenuListComponentProps<OptionType> & {
+}: MenuListComponentProps<OptionType, any> & {
   selectProps: WindowedSelectProps<OptionType>;
 }) {
   const { windowThreshold = DEFAULT_WINDOW_THRESHOLD } = props.selectProps;

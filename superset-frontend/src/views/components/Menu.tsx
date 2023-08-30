@@ -24,7 +24,6 @@ import { getUrlParam } from 'src/utils/urlUtils';
 import { Row, Col, Grid } from 'src/components';
 import { MainNav as DropdownMenu, MenuMode } from 'src/components/Menu';
 import { Link } from 'react-router-dom';
-import { GenericLink } from 'src/components/GenericLink/GenericLink';
 import Icons from 'src/components/Icons';
 import { useUiConfig } from 'src/components/UiConfigContext';
 import { URL_PARAMS } from 'src/constants';
@@ -33,7 +32,6 @@ import {
   MenuObjectProps,
   MenuData,
 } from 'src/types/bootstrapTypes';
-import { Tooltip } from 'src/components/Tooltip';
 import RightMenu from './RightMenu';
 
 interface MenuProps {

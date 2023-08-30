@@ -30,11 +30,11 @@ export default function extent<T = number | string | Date | undefined | null>(
           max = value;
         }
       } else {
-        if (min > value) {
+        if (min! > value!) {
           min = value;
         }
         if (max !== undefined) {
-          if (max < value) {
+          if (max! < value!) {
             max = value;
           }
         }

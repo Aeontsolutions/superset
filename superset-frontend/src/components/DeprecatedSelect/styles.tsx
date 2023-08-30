@@ -117,6 +117,7 @@ type styleFnWithSerializedStyles = (
 ) => CSSStyles | CSSStyles[];
 
 export type StylesConfig = {
+  // @ts-ignore
   [key in keyof Styles]: styleFnWithSerializedStyles;
 };
 export type PartialStylesConfig = Partial<StylesConfig>;
@@ -303,6 +304,7 @@ const INPUT_TAG_BASE_STYLES = {
 };
 
 export type SelectComponentsType = Omit<
+  // @ts-ignore
   SelectComponentsConfig<any>,
   'Input'
 > & {
@@ -323,8 +325,9 @@ const { ClearIndicator, DropdownIndicator, Option, Input, SelectContainer } =
   defaultComponents as Required<DeepNonNullable<SelectComponentsType>>;
 
 export const DEFAULT_COMPONENTS: SelectComponentsType = {
-  SelectContainer: ({ children, ...props }) => {
+  SelectContainer: ({ children, ...props }: { children: any }) => {
     const {
+      // @ts-ignore
       selectProps: { assistiveText },
     } = props;
     return (
@@ -344,7 +347,16 @@ export const DEFAULT_COMPONENTS: SelectComponentsType = {
       </div>
     );
   },
-  Option: ({ children, innerProps, data, ...props }) => (
+  Option: ({
+    children,
+    innerProps,
+    data,
+    ...props
+  }: {
+    children: ReactNode;
+    innerProps: object;
+    data: any;
+  }) => (
     <Option
       {...props}
       data={data}
@@ -354,15 +366,16 @@ export const DEFAULT_COMPONENTS: SelectComponentsType = {
       {children}
     </Option>
   ),
-  ClearIndicator: props => (
+  ClearIndicator: (props: React.JSX.IntrinsicAttributes) => (
     <ClearIndicator {...props}>
       <i className="fa">×</i>
     </ClearIndicator>
   ),
-  DropdownIndicator: props => (
+  DropdownIndicator: (props: React.JSX.IntrinsicAttributes) => (
     <DropdownIndicator {...props}>
       <i
         className={`fa fa-caret-${
+          // @ts-ignore
           props.selectProps.menuIsOpen ? 'up' : 'down'
         }`}
       />

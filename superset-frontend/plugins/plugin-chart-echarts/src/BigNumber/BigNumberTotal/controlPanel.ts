@@ -101,7 +101,10 @@ export default {
     ...formData,
     metric: getStandardizedControls().shiftMetric(),
   }),
-  updateStandardizedState: (prevState, currState) => ({
+  updateStandardizedState: (
+    prevState: { metrics: string | any[] },
+    currState: { metrics: any[] },
+  ) => ({
     ...currState,
     metrics: [currState.metrics[0], ...prevState.metrics.slice(1)],
   }),

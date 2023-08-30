@@ -77,6 +77,7 @@ function sanitizeLoader<T>(
 
     return loaded instanceof Promise
       ? (loaded.then(
+          // @ts-ignore
           module => ('default' in module && module.default) || module,
         ) as Promise<T>)
       : (loaded as T);
