@@ -9,6 +9,8 @@ jobs:
   build-push:
 
     runs-on: ubuntu-latest
+    env:
+      EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }}
 
     steps:
     - name: Checkout source code
@@ -36,7 +38,7 @@ jobs:
 
     - name: Set up kubectl for EKS cluster
       run: |
-        aws eks update-kubeconfig --name ${EKS_CLUSTER_NAME}
+        aws eks update-kubeconfig --name ${{vars.EKS_CLUSTER_NAME}}
 
     - name: Set up Helm
       uses: azure/setup-helm@v1
