@@ -47,11 +47,16 @@ export default function SideBar(props: SideBarProps) {
         console.log(res);
         // const data: ActivityData | null = {};
         // data.Examples = res.examples;
-        setActivityData(activityData => ({ ...activityData }));
+        // @ts-ignore
+        setActivityData((activityData: any) => ({ ...activityData }));
       })
       .catch(
         createErrorHandler((errMsg: unknown) => {
-          setActivityData(activityData => ({ ...activityData, Viewed: [] }));
+          // @ts-ignore
+          setActivityData((activityData: any) => ({
+            ...activityData,
+            Viewed: [],
+          }));
           addDangerToast(
             t('There was an issue fetching your recent activity: %s', errMsg),
           );

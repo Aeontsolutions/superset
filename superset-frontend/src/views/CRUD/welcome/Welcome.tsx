@@ -304,7 +304,15 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     ]).then(() => {
       setIsFetchingActivityData(false);
     });
-  }, [otherTabFilters]);
+  }, [
+    addDangerToast,
+    canAccessSqlLab,
+    collapseState,
+    id,
+    otherTabFilters,
+    recent,
+    user.userId,
+  ]);
 
   const handleToggle = () => {
     setChecked(!checked);
@@ -323,13 +331,13 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
         ...(queryData?.slice(0, 3) || []),
       ],
     }));
-  }, [chartData, queryData, dashboardData]);
+  }, [chartData, queryData, dashboardData, collapseState]);
 
   useEffect(() => {
     if (!collapseState && activityData?.[TableTab.Viewed]?.length) {
       setActiveState(activeState => ['1', ...activeState]);
     }
-  }, [activityData]);
+  }, [activityData, collapseState]);
 
   const isRecentActivityLoading =
     !activityData?.[TableTab.Other] && !activityData?.[TableTab.Viewed];

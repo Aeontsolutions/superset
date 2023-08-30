@@ -100,6 +100,7 @@ class SuperChart extends React.PureComponent<Props, {}> {
 
   private parseDimension = createSelector(
     ({ width }: { width: string | number; height: string | number }) => width,
+    // @ts-ignore
     ({ height }) => height,
     (width: string | number, height: string | number) => {
       // Parse them in case they are % or 'auto'

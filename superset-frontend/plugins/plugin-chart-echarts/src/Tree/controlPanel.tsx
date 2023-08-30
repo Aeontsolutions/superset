@@ -290,7 +290,11 @@ const controlPanel: ControlPanelConfig = {
     ...formData,
     metric: getStandardizedControls().shiftMetric(),
   }),
-  updateStandardizedState: (prevState, currState) => ({
+  // @ts-ignore
+  updateStandardizedState: (
+    prevState: { metrics: string | any[] },
+    currState: { metrics: any[] },
+  ) => ({
     ...currState,
     metrics: [currState.metrics[0], ...prevState.metrics.slice(1)],
   }),

@@ -102,8 +102,11 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
       postTransformProps?: PostTransformProps;
     }) => input.chartProps,
     (input: { preTransformProps: any }) => input.preTransformProps,
+    // @ts-ignore
     input => input.transformProps,
+    // @ts-ignore
     input => input.postTransformProps,
+    // @ts-ignore
     (chartProps, pre = IDENTITY, transform = IDENTITY, post = IDENTITY) =>
       // @ts-ignore
       post(transform(pre(chartProps))),
@@ -120,6 +123,7 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
   private createLoadableRenderer = createSelector(
     (input: { chartType: string; overrideTransformProps?: TransformProps }) =>
       input.chartType,
+    // @ts-ignore
     input => input.overrideTransformProps,
     (chartType: string, overrideTransformProps: {}) => {
       if (chartType) {
