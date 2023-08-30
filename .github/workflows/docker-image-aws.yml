@@ -52,4 +52,4 @@ jobs:
 
     - name: Helm Upgrade
       run: |
-        helm upgrade  --set image.tag=dev
+        helm upgrade superset apache/superset --set image.tag=dev
