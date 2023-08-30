@@ -66,32 +66,36 @@ RUN mkdir -p ${PYTHONPATH} \
             libpq-dev \
             libecpg-dev \
         && rm -rf /var/lib/apt/lists/*
-        
-ARG GECKODRIVER_VERSION=0.29.0
-ARG FIREFOX_VERSION=88.0
+
+ARG GECKODRIVER_VERSION=v0.32.0
+ARG FIREFOX_VERSION=106.0.3
 
 USER root
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1 firefox-esr wget
+    && apt-get install -y --no-install-recommends \
+          libnss3 \
+          libdbus-glib-1-2 \
+          libgtk-3-0 \
+          libx11-xcb1 \
+          libasound2 \
+          libxtst6 \
+          wget \
+          firefox-esr
 
-RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
-    tar -zxf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C /usr/bin && \
-    chmod 777 /usr/bin/geckodriver && \
-    rm geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
-
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
+# Install GeckoDriver WebDriver
+RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
     tar xvfz /tmp/geckodriver.tar.gz -C /tmp && \
     mv /tmp/geckodriver /usr/local/bin/geckodriver && \
     chmod 777 /usr/local/bin/geckodriver && \
     rm /tmp/geckodriver.tar.gz
 
-# RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
-#     tar xvf /opt/firefox.tar.bz2 -C /opt && \
-#     ln -s /opt/firefox/firefox /usr/local/bin/firefox
+    # Install Firefox
+RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
+    tar xvf /opt/firefox.tar.bz2 -C /opt && \
+    ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 RUN pip install --no-cache gevent psycopg2 redis
-
 USER superset
 RUN PATH="/usr/bin:$PATH"
 RUN PATH="/usr/local/bin:$PATH"
@@ -164,15 +168,10 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_
     chmod 755 /usr/local/bin/geckodriver && \
     rm /tmp/geckodriver.tar.gz
 
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
-    tar -x geckodriver -zf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -O > /usr/bin/geckodriver && \
-    chmod 777 /usr/bin/geckodriver && \
-    rm geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
-
 # Install Firefox
-# RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
-#     tar xvf /opt/firefox.tar.bz2 -C /opt && \
-#     ln -s /opt/firefox/firefox /usr/local/bin/firefox
+RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
+    tar xvf /opt/firefox.tar.bz2 -C /opt && \
+    ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 # Cache everything for dev purposes...
 RUN cd /app \

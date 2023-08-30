@@ -37,7 +37,8 @@ export default function SideBar(props: SideBarProps) {
     null,
   );
   const [chartData, setChartData] = useState<Array<object> | null>(null);
-  const [setActivityData] = useState<ActivityData | null>(null);
+  // @ts-ignore
+  const [activityData, setActivityData] = useState<ActivityData | null>(null);
   // const [sidebarWidth, setSidebarWidth] = useState(225);
   // const [sidebarVisible, setSidebarVisible] = useState(true);
 
@@ -45,15 +46,14 @@ export default function SideBar(props: SideBarProps) {
     getRecentActivityObjs(userid!, recent, addDangerToast, [])
       .then(res => {
         console.log(res);
+        const data: ActivityData | null = {};
         // const data: ActivityData | null = {};
         // data.Examples = res.examples;
-        // @ts-ignore
-        setActivityData((activityData: any) => ({ ...activityData }));
+        setActivityData(activityData => ({ ...activityData, ...data }));
       })
       .catch(
         createErrorHandler((errMsg: unknown) => {
-          // @ts-ignore
-          setActivityData((activityData: any) => ({
+          setActivityData(activityData => ({
             ...activityData,
             Viewed: [],
           }));
@@ -78,7 +78,7 @@ export default function SideBar(props: SideBarProps) {
         setChartData([]);
         console.error(err);
       });
-  }, []);
+  }, [id, recent, userid]);
 
   // const isRecentActivityLoading = !activityData?.Examples;
 
