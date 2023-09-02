@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
   BrowserRouter as Router,
@@ -38,6 +38,8 @@ import { Logger, LOG_ACTIONS_SPA_NAVIGATION } from 'src/logger/LogUtils';
 import setupExtensions from 'src/setup/setupExtensions';
 import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
+import Layout, { Content } from 'antd/lib/layout/layout';
+import Sidebar from 'src/components/Sidebar';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
 import QueryProvider from './QueryProvider';
@@ -47,7 +49,7 @@ setupPlugins();
 setupExtensions();
 
 const bootstrapData = getBootstrapData();
-
+const user = { ...bootstrapData.user };
 let lastLocationPathname: string;
 
 const boundActions = bindActionCreators({ logEvent }, store.dispatch);
@@ -69,32 +71,61 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
-const App = () => (
-  <QueryProvider>
-    <Router>
-      <ScrollToTop />
-      <LocationPathnameLogger />
-      <RootContextProviders>
-        <GlobalStyles />
-        <Menu
-          data={bootstrapData.common.menu_data}
-          isFrontendRoute={isFrontendRoute}
-        />
-        <Switch>
-          {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-            <Route path={path} key={path}>
-              <Suspense fallback={<Fallback />}>
-                <ErrorBoundary>
-                  <Component user={bootstrapData.user} {...props} />
-                </ErrorBoundary>
-              </Suspense>
-            </Route>
-          ))}
-        </Switch>
-        <ToastContainer />
-      </RootContextProviders>
-    </Router>
-  </QueryProvider>
-);
+function App() {
+  const [sidebarWidth, setSidebarWidth] = useState(230); // Initial width value
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+  const toggleSidebarWidth = () => {
+    setSidebarWidth(prevWidth => (prevWidth === 230 ? 50 : 230));
+    setIsSidebarVisible(current => !current);
+  };
+  return (
+    <QueryProvider>
+      <Router>
+        <ScrollToTop />
+        <LocationPathnameLogger />
+        <RootContextProviders>
+          <GlobalStyles />
+          <Layout hasSider>
+            <Sidebar
+              user={user}
+              width={sidebarWidth}
+              sidebarVisible={isSidebarVisible}
+              toggleSidebarWidth={toggleSidebarWidth}
+            />
+            <Layout style={{ marginLeft: sidebarWidth }}>
+              <Menu
+                data={bootstrapData.common.menu_data}
+                isFrontendRoute={isFrontendRoute}
+              />
+              <Content
+                style={{
+                  margin: '24px 26px 0',
+                  overflow: 'initial',
+                }}
+              >
+                <Switch>
+                  {routes.map(
+                    ({ path, Component, props = {}, Fallback = Loading }) => (
+                      <Route path={path} key={path}>
+                        <Suspense fallback={<Fallback />}>
+                          <ErrorBoundary>
+                            <Component user={bootstrapData.user} {...props} />
+                          </ErrorBoundary>
+                        </Suspense>
+                      </Route>
+                    ),
+                  )}
+                </Switch>
+              </Content>
+            </Layout>
+          </Layout>
+
+          <ToastContainer />
+        </RootContextProviders>
+      </Router>
+    </QueryProvider>
+  );
+}
 
 export default hot(App);

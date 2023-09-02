@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-config
+data:
+  traefik.toml: |
+    [entryPoints]
+      [entryPoints.web]
+        address = ":80"
+
+      [entryPoints.websecure]
+        address = ":443"
+
+    [providers.kubernetesIngress]
+      [providers.kubernetesIngress.ingressEndpoint]
+        publishedService = "default/traefik"
+
+    [certificatesResolvers.default.acme]
+      email = "romaine.murray@aeontsolutions.com"
+      storage = "/data/acme.json"
+      [certificatesResolvers.default.acme.httpChallenge]
+        entryPoint = "web"

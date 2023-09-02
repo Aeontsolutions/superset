@@ -1,0 +1,125 @@
+image:
+  name: traefik
+  tag: 2.10
+
+
+# dnsChallenge:
+#         provider: gcloud
+#         delayBeforeCheck: 0
+#         resolvers:
+#           - "8.8.8.8:53"
+#           - "8.8.4.4:53"
+
+additionalArguments:
+  - "--api.insecure=true"
+  - "--api.dashboard=true"
+  - "--providers.kubernetesingress.ingressclass=traefik"
+  - "--certificatesresolvers.default.acme.tlschallenge=true"
+  - "--certificatesresolvers.default.acme.dnschallenge=false"
+  - "--certificatesresolvers.default.acme.dnschallenge.provider=gcloud"
+  - "--certificatesresolvers.default.acme.dnschallenge.delaybeforecheck=0"
+  - "--certificatesresolvers.default.acme.dnschallenge.resolvers=8.8.8.8:53,8.8.4.4:53"
+  - "--certificatesresolvers.default.acme.httpchallenge=false"
+  - "--certificatesresolvers.default.acme.httpchallenge.entrypoint=web"
+  - "--certificatesresolvers.default.acme.email=romaine.murray@aeontsolutions.com"
+  - "--certificatesresolvers.default.acme.storage=/data/acme.json"
+  # - "--certificatesresolvers.default.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+  - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+  - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+
+globalArguments:
+  - "--global.checkNewVersion=true"
+  - "--global.sendAnonymousUsage=false"
+
+logs:
+  general:
+    level: "ERROR"
+
+
+rollingUpdate:
+  maxUnavailable: 0
+  maxSurge: 1
+
+ports:
+  traefik:
+    expose: true
+    port: 9000
+  web:
+    port: 8080
+  websecure:
+    port: 8443
+
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: default
+
+service:
+  type: LoadBalancer
+  annotations: {}
+  ports:
+    web:
+      port: 80
+      targetPort: 8080
+    websecure:
+      port: 443
+      targetPort: 443
+
+providers:
+  kubernetesIngress:
+    ingressClass: traefik
+  kubernetesCRD:
+    enabled: true
+
+api:
+  dashboard: true
+  insecure: true
+
+ping: {}
+
+pilot:
+  enabled: false
+
+
+deployment:
+  replicas: 1
+  env:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /etc/gcloud/credentials.json
+    - name: GCE_PROJECT
+      value: apache-superset-378504
+    - name: GCE_SERVICE_ACCOUNT_FILE
+      value: /etc/gcloud/credentials.json
+  envFromSecret:
+    - name: google-cloud-credentials
+      mountPath: /etc/gcloud
+
+ingressRoute:
+  dashboard:
+    enabled: true
+
+certManager:
+  enabled: true
+
+
+certificatesResolvers:
+  default:
+    acme:
+      email: romaine.murray@aeontsolutions.com
+      storage: /data/acme.json
+      dnsChallenge:
+        provider: gcloud
+        delayBeforeCheck: 0
+        resolvers:
+          - "8.8.8.8:53"
+          - "8.8.4.4:53"
+      # httpChallenge:
+      #   entryPoint: web
+      # Uncomment the following line to use the staging Let's Encrypt environment for testing.
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory

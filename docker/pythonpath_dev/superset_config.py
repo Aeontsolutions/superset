@@ -100,13 +100,35 @@ class CeleryConfig(object):
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+SMTP_HOST = "smtppro.zoho.com"
+SMTP_PORT = 587
+SMTP_STARTTLS = True
+SMTP_SSL_SERVER_AUTH = False
+SMTP_SSL = False
+SMTP_USER = "romaine.murray@aeontsolutions.com"
+SMTP_PASSWORD = "f3JGaStzWBKt"
+SMTP_MAIL_FROM = "noreply@aeontsolutions.com"
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_VIRTUALIZATION": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DRILL_TO_DETAIL": True,
+    "GENERIC_CHART_AXES": True,
+    "THUMBNAILS": True,
+}
+MAPBOX_API_KEY = "pk.eyJ1IjoiZHVqb24tZHVubiIsImEiOiJjbGc2NnBhNTMwYTBkM2ZuNTVoN2hwejc0In0.iQLaqyal3d5ne7c9BhhEbA"
+SECRET_KEY = "vmdM0KgLUO+PPJE254reJGu1DmP+aIDnsCtX0cx2oSiz6AXcK6UaJiJc"
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
-WEBDRIVER_BASEURL = "http://superset:8088/"
+WEBDRIVER_BASEURL = "https://analyticsaws-dev.aeontsolutions.com/"
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
+ENABLE_PROXY_FIX = True
+ROW_LIMIT = 5000
 
 #
 # Optionally import superset_config_docker.py (which will have been included on

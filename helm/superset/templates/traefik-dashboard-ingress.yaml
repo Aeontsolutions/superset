@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`traefik-dashboard-dev.aeontsolutions.com`)
+    kind: Rule
+    services:
+    - name: api@internal
+      kind: TraefikService
