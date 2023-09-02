@@ -40,6 +40,7 @@ import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import Layout, { Content } from 'antd/lib/layout/layout';
 import Sidebar from 'src/components/Sidebar';
+import { User } from 'src/types/bootstrapTypes';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
 import QueryProvider from './QueryProvider';
@@ -49,7 +50,7 @@ setupPlugins();
 setupExtensions();
 
 const bootstrapData = getBootstrapData();
-const user = { ...bootstrapData.user };
+const user = { ...(bootstrapData.user as User) };
 let lastLocationPathname: string;
 
 const boundActions = bindActionCreators({ logEvent }, store.dispatch);

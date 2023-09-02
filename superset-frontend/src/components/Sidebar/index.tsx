@@ -2,20 +2,11 @@ import { Layout } from 'antd/lib/index';
 import { SiderProps } from 'antd/lib/layout/Sider';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { User } from 'src/types/bootstrapTypes';
-import {
-  createErrorHandler,
-  getRecentActivityObjs,
-  getUserOwnedObjects,
-} from 'src/views/CRUD/utils';
-import rison from 'rison';
-import { ActivityData } from 'src/views/CRUD/welcome/Welcome';
-import Button from '../Button';
+import { getUserOwnedObjects } from 'src/views/CRUD/utils';
 import './Sidebar.less';
-import { reject } from 'lodash';
-import { TableTab } from 'src/views/CRUD/types';
 import { SupersetClient, t } from '@superset-ui/core';
 import { canUserAccessSqlLab } from 'src/dashboard/util/permissionUtils';
 import getBootstrapData from 'src/utils/getBootstrapData';
@@ -24,9 +15,11 @@ import { useListViewResource } from 'src/views/CRUD/hooks';
 import Dashboard from 'src/dashboard/containers/Dashboard';
 import Owner from 'src/types/Owner';
 import { useQuery } from 'react-query';
-import { addDangerToast } from '../MessageToasts/actions';
-import { Menu } from '../Menu';
+import Chart from 'src/types/Chart';
+import Button from '../Button';
 import CertifiedBadge from '../CertifiedBadge';
+import { Menu } from '../Menu';
+import { addDangerToast } from '../MessageToasts/actions';
 
 interface SidebarProps extends SiderProps {
   width: number;
@@ -55,38 +48,19 @@ const bootstrapData = getBootstrapData();
 
 export default function Sidebar(props: SidebarProps) {
   const { width, toggleSidebarWidth, sidebarVisible, user, ...rest } = props;
-  const {
-    state: {
-      loading,
-      resourceCount: dashboardCount,
-      resourceCollection: dashboards,
-      bulkSelectEnabled,
-    },
-    setResourceCollection: setDashboards,
-    hasPerm,
-    fetchData,
-    toggleBulkSelect,
-    refreshData,
-  } = useListViewResource<Dashboard>(
-    'dashboard',
-    t('dashboard'),
-    addDangerToast,
-  );
+  useListViewResource<Dashboard>('dashboard', t('dashboard'), addDangerToast);
 
   const canAccessSqlLab = canUserAccessSqlLab(user);
   const userid = user.userId;
   const id = userid!.toString();
-  const params = rison.encode({ page_size: 6 });
   const logo = '/static/assets/images/superset-logo-horiz.png';
-  const recent = `/api/v1/log/recent_activity/${id}/?q=${params}`;
-  const [activityData, setActivityData] = useState<ActivityData | null>(null);
   const [dashboardData, setDashboardData] = useState<Array<object> | null>(
     null,
   );
   const [chartData, setChartData] = useState<Array<object> | null>(null);
-  const [queryData, setQueryData] = useState<Array<object> | null>(null);
+  // @ts-ignore
   const [isFetchingActivityData, setIsFetchingActivityData] = useState(true);
-
+  // @ts-ignore
   const [otherTabTitle, otherTabFilters] = useMemo(() => {
     const lastTab = bootstrapData.common?.conf
       .WELCOME_PAGE_LAST_TAB as WelcomePageLastTab;
@@ -115,35 +89,6 @@ export default function Sidebar(props: SidebarProps) {
     if (!otherTabFilters) {
       return;
     }
-    getRecentActivityObjs(id, recent, addDangerToast, otherTabFilters)
-      .then(res => {
-        const data: ActivityData | null = {};
-        if (res.viewed) {
-          const filtered = reject(res.viewed, ['item_url', null]).map(r => r);
-          data[TableTab.Viewed] = filtered;
-        }
-        setActivityData(activityData => ({ ...activityData, ...data }));
-      })
-      .catch(
-        createErrorHandler((errMsg: unknown) => {
-          setActivityData(activityData => ({
-            ...activityData,
-            [TableTab.Viewed]: [],
-          }));
-          addDangerToast(
-            t('There was an issue fetching your recent activity: %s', errMsg),
-          );
-        }),
-      );
-
-    // Sets other activity data in parallel with recents api call
-    const ownSavedQueryFilters = [
-      {
-        col: 'created_by',
-        opr: 'rel_o_m',
-        value: `${id}`,
-      },
-    ];
 
     Promise.all([
       getUserOwnedObjects(id, 'chart')
@@ -159,18 +104,8 @@ export default function Sidebar(props: SidebarProps) {
     ]).then(() => {
       setIsFetchingActivityData(false);
     });
-  }, [otherTabFilters]);
-
-  useEffect(() => {
-    setActivityData(activityData => ({
-      ...activityData,
-      Created: [
-        ...(chartData?.slice(0, 3) || []),
-        ...(queryData?.slice(0, 3) || []),
-      ],
-    }));
-  }, [chartData, queryData, dashboardData]);
-
+  }, [id, otherTabFilters]);
+  // @ts-ignore
   const { status, data, error, isFetching } = useQuery(
     ['dashboard'],
     async () => {
@@ -185,8 +120,10 @@ export default function Sidebar(props: SidebarProps) {
     if (status === 'success') {
       setDashboardData(data?.result);
     } else if (status === 'error') {
+      // @ts-expect-error message does not exist on unknown
       addDangerToast(error?.message || 'An error occurred');
     }
+    // @ts-expect-error message does not exist on unknown
   }, [status, data, error?.message]);
   const wideMenu = () => (
     <>
@@ -210,7 +147,10 @@ export default function Sidebar(props: SidebarProps) {
           }
         >
           {[...(dashboardData ?? [])]
-            .filter(dashboard => dashboard?.dashboard_title !== undefined)
+            .filter(
+              (dashboard: Dashboard) =>
+                dashboard?.dashboard_title !== undefined,
+            )
             .map((dashboard: Dashboard) => (
               <Menu.Item
                 key={dashboard?.id}
@@ -233,8 +173,8 @@ export default function Sidebar(props: SidebarProps) {
           }
         >
           {[...(chartData ?? [])]
-            .filter(chart => chart?.slice_name !== undefined)
-            .map(chart => (
+            .filter((chart: Chart) => chart?.slice_name !== undefined)
+            .map((chart: Chart) => (
               <Menu.Item
                 key={chart?.id}
                 title={chart?.slice_name}
@@ -335,7 +275,10 @@ export default function Sidebar(props: SidebarProps) {
         >
           <Menu.ItemGroup title="Dashboards">
             {[...(dashboardData ?? [])]
-              .filter(dashboard => dashboard?.dashboard_title !== undefined)
+              .filter(
+                (dashboard: Dashboard) =>
+                  dashboard?.dashboard_title !== undefined,
+              )
               .map((dashboard: Dashboard) => (
                 <Menu.Item
                   key={dashboard?.id}
@@ -359,8 +302,8 @@ export default function Sidebar(props: SidebarProps) {
         >
           <Menu.ItemGroup title="Charts">
             {[...(chartData ?? [])]
-              .filter(chart => chart?.slice_name !== undefined)
-              .map(chart => (
+              .filter((chart: Chart) => chart?.slice_name !== undefined)
+              .map((chart: Chart) => (
                 <Menu.Item
                   key={chart?.id}
                   title={chart?.slice_name}
@@ -369,12 +312,10 @@ export default function Sidebar(props: SidebarProps) {
                 >
                   <Link to={chart.url}>
                     {chart.certified_by && (
-                      <>
-                        <CertifiedBadge
-                          certifiedBy={chart.certified_by}
-                          details={chart.certification_details}
-                        />
-                      </>
+                      <CertifiedBadge
+                        certifiedBy={chart.certified_by}
+                        details={chart.certification_details}
+                      />
                     )}
                     <span>{chart.slice_name}</span>
                   </Link>
@@ -389,17 +330,19 @@ export default function Sidebar(props: SidebarProps) {
             </span>
           }
         >
-          <Menu.ItemGroup title="SQL Lab">
-            <Menu.Item title="SQL Editor">
-              <Link to="/superset/sqllab/">SQL Editor</Link>
-            </Menu.Item>
-            <Menu.Item title="Saved Queries">
-              <Link to="/savedqueryview/list/">Saved Queries</Link>
-            </Menu.Item>
-            <Menu.Item title="Query History">
-              <Link to="/superset/sqllab/history">Query History</Link>
-            </Menu.Item>
-          </Menu.ItemGroup>
+          {canAccessSqlLab && (
+            <Menu.ItemGroup title="SQL Lab">
+              <Menu.Item title="SQL Editor">
+                <Link to="/superset/sqllab/">SQL Editor</Link>
+              </Menu.Item>
+              <Menu.Item title="Saved Queries">
+                <Link to="/savedqueryview/list/">Saved Queries</Link>
+              </Menu.Item>
+              <Menu.Item title="Query History">
+                <Link to="/superset/sqllab/history">Query History</Link>
+              </Menu.Item>
+            </Menu.ItemGroup>
+          )}
         </SubMenu>
         <SubMenu
           key="sub4"
