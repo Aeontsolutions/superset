@@ -123,5 +123,6 @@ unicodecsv==0.14.1
 xlrd==2.0.1
     # via tabulator
 
+sqlalchemy-bigquery
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
