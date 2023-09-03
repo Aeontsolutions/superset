@@ -87,9 +87,9 @@ extraEnvRaw:
   #       name: superset.superset-postgres.credentials.postgresql.acid.zalan.do
   #       key: password
 
-# -- Extra environment variables to pass as secrets
-extraSecretEnv:
-  {}
+## Extra environment variables to pass as secrets
+##
+extraSecretEnv: { MAPBOX_API_KEY: pk.eyJ1IjoiZHVqb24tZHVubiIsImEiOiJjbGc2NnBhNTMwYTBkM2ZuNTVoN2hwejc0In0.iQLaqyal3d5ne7c9BhhEbA }
   # MAPBOX_API_KEY: ...
   # # Google API Keys: https://console.cloud.google.com/apis/credentials
   # GOOGLE_KEY: ...
@@ -133,10 +133,71 @@ extraVolumeMounts:
 
 # -- A dictionary of overrides to append at the end of superset_config.py - the name does not matter
 # WARNING: the order is not guaranteed
-# Files can be passed as helm --set-file configOverrides.my-override=my-file.py
-configOverrides:
-  {}
-  # extend_timeout: |
+configOverrides: 
+  my_override: |
+    REDIS_HOST = "custom-superset-dev-redis-master.default.svc.cluster.local"
+    REDIS_PORT = 6379
+    REDIS_CELERY_DB = 0
+    REDIS_RESULTS_DB = 1
+    CACHE_CONFIG = {
+      "CACHE_TYPE": "redis",
+      "CACHE_DEFAULT_TIMEOUT": 300,
+      "CACHE_KEY_PREFIX": "superset_",
+      "CACHE_REDIS_HOST": REDIS_HOST,
+      "CACHE_REDIS_PORT": REDIS_PORT,
+      "CACHE_REDIS_DB": REDIS_RESULTS_DB,
+    }
+    DATA_CACHE_CONFIG = CACHE_CONFIG
+    FILTER_STATE_CACHE_CONFIG = CACHE_CONFIG
+    EXPLORE_FORM_DATA_CACHE_CONFIG = CACHE_CONFIG
+    
+    from celery.schedules import crontab
+    class CeleryConfig(object):
+      BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
+      CELERY_IMPORTS = ("superset.sql_lab",)
+      CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
+      CELERYD_LOG_LEVEL = "DEBUG"
+      CELERYD_PREFETCH_MULTIPLIER = 1
+      CELERY_ACKS_LATE = False
+      CELERYBEAT_SCHEDULE = {
+          "reports.scheduler": {
+              "task": "reports.scheduler",
+              "schedule": crontab(minute="*", hour="*"),
+          },
+          "reports.prune_log": {
+              "task": "reports.prune_log",
+              "schedule": crontab(minute=10, hour=0),
+          },
+          "reports.prune_db": {
+              "task": "reports.prune_db",
+              "schedule": crontab(minute=10, hour=0),
+          },
+      }
+    CELERY_CONFIG = CeleryConfig
+    SMTP_HOST = "smtppro.zoho.com"
+    SMTP_PORT = 587
+    SMTP_STARTTLS = True
+    SMTP_SSL_SERVER_AUTH = False
+    SMTP_SSL = False
+    SMTP_USER = "romaine.murray@aeontsolutions.com"
+    SMTP_PASSWORD = "f3JGaStzWBKt"
+    SMTP_MAIL_FROM = "noreply@aeontsolutions.com"
+    SECRET_KEY= "275e9918-8242-47cc-8c31-6bafb91e3399"
+    ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+    FEATURE_FLAGS = {"ALERT_REPORTS": True, 
+    "DASHBOARD_VIRTUALIZATION": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DRILL_TO_DETAIL": True,
+    "GENERIC_CHART_AXES": True,
+    "THUMBNAILS": True,
+    }
+    WEBDRIVER_BASEURL = "https://analyticsaws-dev.aeontsolutions.com"
+    WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
+    SQLLAB_CTAS_NO_LIMIT = True
+    ENABLE_PROXY_FIX = True
+    PROXY_FIX_CONFIG = {"x_for": 1, "x_proto": 1, "x_host": 1, "x_port": 1, "x_prefix": 1}
+  #  extend_timeout: |
   #    # Extend timeout to allow long running queries.
   #    SUPERSET_WEBSERVER_TIMEOUT = ...
   # enable_oauth: |
@@ -182,9 +243,9 @@ configMountPath: "/app/pythonpath"
 extraConfigMountPath: "/app/configs"
 
 image:
-  repository: apache/superset
-  tag: ""
-  pullPolicy: IfNotPresent
+  repository: 925030480327.dkr.ecr.us-east-1.amazonaws.com/superset-dev
+  tag: dev
+  pullPolicy: Always
 
 imagePullSecrets: []
 
@@ -408,18 +469,13 @@ supersetWorker:
 
 # Superset beat configuration (to trigger scheduled jobs like reports)
 supersetCeleryBeat:
-  # -- This is only required if you intend to use alerts and reports
-  enabled: false
-  # -- Command
-  # @default -- a `celery beat` command
+  # This is only required if you intend to use alerts and reports
+  enabled: true
   command:
     - "/bin/sh"
     - "-c"
     - ". {{ .Values.configMountPath }}/superset_bootstrap.sh; celery --app=superset.tasks.celery_app:app beat --pidfile /tmp/celerybeat.pid --schedule /tmp/celerybeat-schedule"
-  # -- If true, forces deployment to reload on each upgrade
-  forceReload: false
-  # -- List of init containers
-  # @default -- a container waiting for postgres
+  forceReload: true # If true, forces deployment to reload on each upgrade
   initContainers:
     - name: wait-for-postgres-redis
       image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}"
