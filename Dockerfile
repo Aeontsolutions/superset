@@ -64,7 +64,8 @@ RUN apt-get update -y \
           libx11-xcb1 \
           libasound2 \
           libxtst6 \
-          wget
+          wget \
+          bzip2
 
 # Install GeckoDriver WebDriver
 RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
