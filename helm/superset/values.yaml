@@ -135,6 +135,7 @@ extraVolumeMounts:
 # WARNING: the order is not guaranteed
 configOverrides: 
   my_override: |
+    FAVICONS = [{"href": "/static/assets/images/aeon-logo.png"}]
     REDIS_HOST = "custom-superset-dev-redis-master.default.svc.cluster.local"
     REDIS_PORT = 6379
     REDIS_CELERY_DB = 0
