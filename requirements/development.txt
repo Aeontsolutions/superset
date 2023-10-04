@@ -124,6 +124,16 @@ xlrd==2.0.1
     # via tabulator
 
 sqlalchemy-bigquery
-shillelagh[all]
+shillelagh
+shillelagh[console]       # to use the CLI
+shillelagh[datasetteapi]  # for Datasette
+shillelagh[githubapi]     # for GitHub
+shillelagh[gsheetsapi]    # for GSheets
+shillelagh[htmltableapi]  # for HTML tables
+shillelagh[pandasmemory]  # for Pandas in memory
+shillelagh[s3selectapi]   # for S3 files
+shillelagh[socrataapi]    # for Socrata API
+shillelagh[systemapi]     # for CPU information
+shillelagh[weatherapi]    # for weather information
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
