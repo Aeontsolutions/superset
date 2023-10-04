@@ -124,5 +124,6 @@ xlrd==2.0.1
     # via tabulator
 
 sqlalchemy-bigquery
+shillelagh[all]
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
