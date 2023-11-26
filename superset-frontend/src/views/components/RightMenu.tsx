@@ -371,6 +371,23 @@ const RightMenu = ({
         onOpenChange={onMenuOpen}
       >
         {RightMenuExtension && <RightMenuExtension />}
+        {!navbarRight.user_is_anonymous && (
+          <StyledAnchor
+            href="https://jse.aeontsolutions.com"
+            target="_blank"
+            title={t('Jacie Chatbot')}
+          >
+            <span
+              style={{
+                marginLeft: '10px',
+                marginRight: '3px',
+              }}
+            >
+              Jacie Chatbot
+            </span>
+            <i className="fa fa-external-link" />
+          </StyledAnchor>
+        )}
         {!navbarRight.user_is_anonymous && showActionDropdown && (
           <SubMenu
             data-test="new-dropdown"
