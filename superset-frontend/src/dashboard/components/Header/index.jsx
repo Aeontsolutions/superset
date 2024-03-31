@@ -51,6 +51,7 @@ import { options as PeriodicRefreshOptions } from 'src/dashboard/components/Refr
 import findPermission from 'src/dashboard/util/findPermission';
 import { FILTER_BOX_MIGRATION_STATES } from 'src/explore/constants';
 import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
+import GenerateReportModal from 'src/components/GenerateReportModal';
 import { DashboardEmbedModal } from '../DashboardEmbedControls';
 
 const propTypes = {
@@ -176,6 +177,7 @@ class Header extends React.PureComponent {
       emphasizeRedo: false,
       showingPropertiesModal: false,
       isDropdownVisible: false,
+      isModalVisible: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -188,6 +190,7 @@ class Header extends React.PureComponent {
     this.showPropertiesModal = this.showPropertiesModal.bind(this);
     this.hidePropertiesModal = this.hidePropertiesModal.bind(this);
     this.setIsDropdownVisible = this.setIsDropdownVisible.bind(this);
+    this.toggleReportModal = this.toggleReportModal.bind(this);
   }
 
   componentDidMount() {
@@ -337,6 +340,12 @@ class Header extends React.PureComponent {
       edit_mode: !this.props.editMode,
     });
     this.props.setEditMode(!this.props.editMode);
+  }
+
+  toggleReportModal() {
+    this.setState(({ isModalVisible }) => ({
+      isModalVisible: !isModalVisible,
+    }));
   }
 
   overwriteDashboard() {
@@ -612,6 +621,25 @@ class Header extends React.PureComponent {
                     >
                       {t('Edit dashboard')}
                     </Button>
+                  )}
+                  <Button
+                    buttonStyle="primary"
+                    onClick={this.toggleReportModal}
+                    className="action-button"
+                    aria-label={t('Generate report')}
+                  >
+                    {t('Generate Report')}
+                  </Button>
+                  {this.state.isModalVisible && (
+                    <GenerateReportModal
+                      show={this.state.isModalVisible}
+                      onHide={this.toggleReportModal}
+                      name="Report Modal"
+                      title="Generate Report"
+                      responsive
+                      closable
+                      destroyOnClose
+                    />
                   )}
                 </div>
               )}

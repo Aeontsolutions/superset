@@ -1,1 +1,2 @@
 sqlalchemy-bigquery
+google-api-python-client

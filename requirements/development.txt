@@ -37,6 +37,7 @@ executing==0.8.3
 flask-cors==3.0.10
     # via apache-superset
 future==0.18.2
+google-api-python-client
     # via pyhive
 ijson==3.1.4
     # via tabulator
