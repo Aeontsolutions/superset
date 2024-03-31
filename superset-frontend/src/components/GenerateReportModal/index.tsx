@@ -1,6 +1,6 @@
 import AntdForm from 'antd/lib/form';
 import { makeApi } from '@superset-ui/core';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Form from '../Form/Form';
 import Modal from '../Modal';
