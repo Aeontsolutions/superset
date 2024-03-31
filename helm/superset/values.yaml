@@ -121,6 +121,9 @@ configOverrides:
     REDIS_PORT = 6379
     REDIS_CELERY_DB = 0
     REDIS_RESULTS_DB = 1
+    
+    import os
+    GOOGLE_KEY = os.environ.get("GOOGLE_KEY")
     CACHE_CONFIG = {
       "CACHE_TYPE": "redis",
       "CACHE_DEFAULT_TIMEOUT": 300,

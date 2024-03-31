@@ -158,7 +158,7 @@ class CustomApi(BaseApi):
                 subject=subject,
                 html_content=message,
                 config=app.config,
-                data={"name": attachment.filename, "body": attachment.read()},
+                data={attachment.filename: attachment.read()},
                 mime_subtype="related",
                 # dryrun=True,
             )
