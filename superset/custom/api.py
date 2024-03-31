@@ -34,6 +34,7 @@ class CustomApi(BaseApi):
     def fetch_report_from_drive(self, **kwargs: Any) -> bytes:
         try:
             API_KEY = app.config.get("GOOGLE_KEY")
+            logging.info(f"API_KEY: {API_KEY}")
             # Create drive api client
             service = build("drive", "v3", developerKey=API_KEY)
             # Fetch report attachment
