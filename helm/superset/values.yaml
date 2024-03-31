@@ -220,7 +220,7 @@ extraConfigMountPath: "/app/configs"
 image:
   repository: us-east1-docker.pkg.dev/apache-superset-378504/custom-superset/custom-supserset
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 
