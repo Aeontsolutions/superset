@@ -1,2 +1,3 @@
 sqlalchemy-bigquery
 google-api-python-client
+sqlalchemy==1.3.16
