@@ -95,8 +95,8 @@ export default function GenerateReportModal({
 
   const { addSuccessToast, addWarningToast, addDangerToast } = useToasts();
 
-  const REPORT_NAME = 'report.docx';
-  const DOCUMENT_ID = '1sw98ttCOGnn3ybNvlpLIZlJzO-G4T_-L5P8tOo92f3A';
+  const REPORT_NAME = 'report.pdf';
+  const DOCUMENT_ID = '1MN1YFL5mOmew9Ck_vd_mlg20Mdw6y_NK';
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -133,7 +133,7 @@ export default function GenerateReportModal({
     }
     const byteArray = new Uint8Array(byteNumbers);
     const file = new File([byteArray], fileName, {
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      type: 'application/pdf',
     });
     return file;
   };

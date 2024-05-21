@@ -208,14 +208,14 @@ class CustomApi(BaseApi):
         try:
             # Fetch report attachment
             # CreateReportScheduleCommand(g.user, {}).run()
-            application_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            application_type = "application/pdf"
             if request.args.get("document_id"):
                 logger.log(
                     15, "Fetching report attachment", request.args.get("document_id")
                 )
                 document_id = request.args.get("document_id")
             else:
-                document_id = "1sw98ttCOGnn3ybNvlpLIZlJzO-G4T_-L5P8tOo92f3A"
+                document_id = "1MN1YFL5mOmew9Ck_vd_mlg20Mdw6y_NK"
             report_attachment = self.fetch_report_from_drive(
                 document_id=document_id, application_type=application_type
             )
